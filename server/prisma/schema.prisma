@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+  ROOT
+}
+
+enum Type {
+  OBJECTIVE
+  DISCURSIVE
+}
+
+model User {
+  id             String  @id @default(uuid())
+  login          String
+  password       String
+  name           String
+  surname        String?
+  role           Role    @default(CLIENT)
+  questionnaires Quiz[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("user")
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+  quiz Quiz[]
+}
+
+model Quiz {
+  id          String   @id @default(uuid())
+  title       String   @unique
+  description String?
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryId String?
+
+  question Question[]
+}
+
+model Question {
+  id    String  @id @default(uuid())
+  title String  @db.VarChar(2000)
+  type  Type    @default(DISCURSIVE)
+  image String?
+
+  quiz   Quiz?   @relation(fields: [quizId], references: [id])
+  quizId String?
+
+  answers Answer[]
+}
+
+model Answer {
+  id        String  @id @default(uuid())
+  text      String  @unique
+  isCorrect Boolean @default(value: false)
+
+  question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
+}
