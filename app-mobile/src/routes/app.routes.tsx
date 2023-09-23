@@ -12,60 +12,61 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SignIn } from '../page/Login/SignIn';
 import { SignUp } from '../page/Login/SignUp';
 import { Quiz } from '../page/Quiz';
+import {InformationPanel} from "../page/InformationPanel";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 const SimpleStack = createStackNavigator();
 
-// function AppRoutes() {
-//   const theme = useTheme();
+function AppRoutes() {
+  const theme = useTheme();
 
-//   return (
-//     <Navigator
-//       screenOptions={{
-//         headerShown: false,
-//         tabBarActiveTintColor: theme.colors.secondary,
-//         tabBarInactiveTintColor: theme.colors.text,
-//         tabBarLabelPosition: 'beside-icon',
-//         tabBarStyle: {
-//           paddingVertical: Platform.OS === 'ios' ? 20 : 0,
-//           height: 88,
-//         },
-//       }}
-//     >
-//       <Screen
-//         name='Listagem'
-//         component={StackRoutes}
-//         options={{
-//           tabBarIcon: ({ size, color }) => (
-//             <MaterialIcons
-//               name='format-list-bulleted'
-//               size={size}
-//               color={color}
-//             />
-//           ),
-//         }}
-//       />
-//       <Screen
-//         name='Cadastrar'
-//         component={Register}
-//         options={{
-//           tabBarIcon: ({ size, color }) => (
-//             <MaterialIcons name='note-add' size={size} color={color} />
-//           ),
-//         }}
-//       />
-//       <Screen
-//         name='Resumo'
-//         component={Register}
-//         options={{
-//           tabBarIcon: ({ size, color }) => (
-//             <MaterialIcons name='pie-chart' size={size} color={color} />
-//           ),
-//         }}
-//       />
-//     </Navigator>
-//   );
-// }
+  return (
+    <Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: theme.colors.secondary,
+        tabBarInactiveTintColor: theme.colors.text,
+        tabBarLabelPosition: 'beside-icon',
+        tabBarStyle: {
+          paddingVertical: Platform.OS === 'ios' ? 20 : 0,
+          height: 88,
+        },
+      }}
+    >
+      <Screen
+        name='Listagem'
+        component={StackRoutes}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons
+              name='format-list-bulleted'
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name='Cadastrar'
+        component={Register}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons name='note-add' size={size} color={color} />
+          ),
+        }}
+      />
+      <Screen
+        name='Resumo'
+        component={InformationPanel}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons name='pie-chart' size={size} color={color} />
+          ),
+        }}
+      />
+    </Navigator>
+  );
+}
 
 function StackRoutes() {
   return (
@@ -77,4 +78,4 @@ function StackRoutes() {
   );
 }
 
-export { StackRoutes };
+export { AppRoutes };

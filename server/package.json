@@ -2,7 +2,7 @@
   "name": "api-nestjs-prisma-enade",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Luis Carlos",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -21,7 +21,11 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:rm": "docker compose rm db --force --stop --volumes",
     "db:up": "docker compose up db --detach",
-    "db:restart": "run-s db:rm db:up"
+    "db:restart": "run-s db:rm db:up",
+    "prisma:studio": " npx prisma studio"
+  },
+  "prisma": {
+    "seed": "ts-node src/prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -46,6 +50,7 @@
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jest": "28.1.8",
     "@types/node": "^16.0.0",

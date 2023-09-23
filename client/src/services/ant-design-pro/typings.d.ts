@@ -1,6 +1,6 @@
 declare namespace API {
   type CurrentUser = {
-    name?: string;
+    // name?: string;
     avatar?: string;
     userid?: string;
     email?: string;
@@ -19,6 +19,14 @@ declare namespace API {
     address?: string;
     phone?: string;
     access_token?: string;
+    id: string;
+    login: string;
+    password: string;
+    name: string;
+    surname: string;
+    role: string;
+    createdAt: Date;
+    updatedAt: Date;
   };
 
   type ErrorResponse = {
@@ -41,7 +49,7 @@ declare namespace API {
   };
 
   type LoginParams = {
-    username?: string;
+    login?: string;
     password?: string;
     autoLogin?: boolean;
     type?: string;
@@ -51,6 +59,17 @@ declare namespace API {
     status?: string;
     type?: string;
     currentAuthority?: string;
+    expiresIn: string;
+    Authorization: string;
+    data: {
+      id: string;
+      login: string;
+      name: string;
+      surname: string;
+      role: string;
+      createdAt: Date;
+      updatedAt: Date;
+    };
   };
 
   type NoticeIconItem = {
@@ -73,6 +92,19 @@ declare namespace API {
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
+  };
+
+  type CategoryItem = {
+    id?: string;
+    name?: string;
+  };
+
+  type CategoryList = {
+    data?: CategoryItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+    message?: string;
   };
 
   type PageParams = {
@@ -108,4 +140,103 @@ declare namespace API {
     /** 页面的容量 */
     pageSize?: number;
   };
+
+  type UUID = string;
+  type Timestamp = string;
+
+  interface TableListPagination {
+    total: number;
+    pageSize: number;
+    current: number;
+  }
+
+  interface QuizDTO {
+    id: UUID;
+    title: string;
+    description: string;
+    published: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+    userId: UUID | null;
+    categoryId: UUID;
+    question: QuestionDTO[];
+  }
+
+  interface DeleteApiResponse {
+    success: boolean;
+    message: string;
+    data: {
+      count: number;
+    };
+  }
+
+  interface QuestionsApiResponse {
+    success: boolean;
+    message: string;
+    data: QuizDTO[];
+    totalItemCount?: number;
+  }
+  interface QuizApiResponse {
+    success: boolean;
+    message: string;
+    data: QuizDTO;
+    totalItemCount?: number;
+  }
+
+  enum QuestionTypeDTO {
+    DISCURSIVE = 'DISCURSIVE',
+    OBJECTIVE = 'OBJECTIVE',
+  }
+
+  interface AnswerDTO {
+    id: UUID;
+    text: string;
+    isCorrect: boolean;
+    questionId: UUID;
+  }
+
+  interface QuestionDTO {
+    id: UUID;
+    title: string;
+    type: QuestionTypeDTO;
+    image: null | string | undefined; // string URL or null.
+    quizId: UUID;
+    answers?: AnswerDTO[];
+  }
+
+  interface QuestionParams {
+    id: string;
+    quizId: string;
+    title: string;
+    type: string;
+    image: string | null;
+  }
+
+  interface QuestionUpdateResult {
+    success: boolean;
+    message: string;
+    data: {
+      id: string;
+      title: string;
+      type: string;
+      image: string | null;
+      quizId: string;
+    };
+  }
+
+  interface Question {
+    id: UUID;
+    title: string;
+    type: QuestionType;
+    answer_0: string;
+    isCorrect_0: boolean;
+    answer_1: string;
+    isCorrect_1: boolean;
+    answer_2?: string;
+    isCorrect_2?: boolean;
+    answer_3?: string;
+    isCorrect_3?: boolean;
+    answer_4?: string;
+    isCorrect_4?: boolean;
+  }
 }

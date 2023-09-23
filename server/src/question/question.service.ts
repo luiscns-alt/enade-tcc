@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
-import { Question } from '@prisma/client';
+import { Prisma, Question } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -33,7 +33,9 @@ export class QuestionService {
       message: 'QUESTION_FIND_ALL_SUCCESS',
     };
     try {
-      status.data = await this.prisma.question.findMany();
+      status.data = await this.prisma.question.findMany({
+        include: { answers: true },
+      });
     } catch (error) {
       status = {
         success: false,
@@ -46,7 +48,7 @@ export class QuestionService {
   async findOne(id: string): Promise<QuestionStatus> {
     let status: QuestionStatus = {
       success: true,
-      message: 'QUIZ_FIND_ONE_SUCCESS',
+      message: 'QUESTION_FIND_ONE_SUCCESS',
     };
     try {
       status.data = await this.prisma.question.findUnique({
@@ -87,10 +89,28 @@ export class QuestionService {
   async remove(id: string): Promise<QuestionStatus> {
     let status: QuestionStatus = {
       success: true,
-      message: 'QUIZ_REMOVE_SUCCESS',
+      message: 'QUESTION_REMOVE_SUCCESS',
     };
     try {
       status.data = await this.prisma.question.delete({ where: { id } });
+    } catch (error) {
+      status = {
+        success: false,
+        message: error,
+      };
+    }
+    return status;
+  }
+
+  async removes(ids: string[]): Promise<QuestionStatus> {
+    let status: QuestionStatus = {
+      success: true,
+      message: 'QUESTION_REMOVES_SUCCESS',
+    };
+    try {
+      status.data = await this.prisma.question.deleteMany({
+        where: { id: { in: ids } },
+      });
     } catch (error) {
       status = {
         success: false,
@@ -104,7 +124,7 @@ export class QuestionService {
 export interface QuestionStatus {
   success: boolean;
   message: string;
-  data?: Question;
+  data?: Question | Prisma.BatchPayload;
 }
 
 export interface QuestionFind {

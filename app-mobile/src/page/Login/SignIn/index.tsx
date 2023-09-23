@@ -1,13 +1,11 @@
 import React from 'react';
 import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigation } from '@react-navigation/native';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
-
 import { Button } from '../../../components/Button';
 import { InputForm } from '../../../components/Form/InputForm';
-
 import {
   Container,
   Fields,
@@ -19,12 +17,13 @@ import {
   Title,
 } from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useAuth } from '../../../contexts/auth';
 
-interface FormData {
+type FormData = FieldValues & {
   username: string;
   password: string;
-}
+};
 
 const schema = Yup.object().shape({
   username: Yup.string().required('Nome é obrigatório'),
@@ -32,7 +31,7 @@ const schema = Yup.object().shape({
 });
 
 export function SignIn() {
-  const { navigate } = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const { signIn } = useAuth();
   const {
     control,
@@ -42,21 +41,20 @@ export function SignIn() {
     resolver: yupResolver(schema),
   });
 
-  function handleRegister(form: FormData) {
+  const handleRegister: SubmitHandler<FormData> = async (form) => {
     const data = {
-      username: form.username,
+      login: form.username,
       password: form.password,
     };
-    // console.log(data);
-    signIn(data);
-  }
+    await signIn(data);
+  };
 
   // function handleSign() {
   //     signIn();
   // }
 
   function handleRegistration() {
-    navigate('Register');
+    navigation.navigate('Register');
   }
 
   return (
@@ -91,8 +89,7 @@ export function SignIn() {
             />
           </Fields>
           <Button
-            onPress={handleSubmit(handleRegister)}
-            // onPress={handleSign}
+            onPress={handleSubmit(handleRegister as SubmitHandler<FieldValues>)}
             title='Login'
           />
         </Form>

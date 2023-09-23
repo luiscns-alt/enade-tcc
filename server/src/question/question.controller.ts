@@ -64,4 +64,13 @@ export class QuestionController {
     }
     return result;
   }
+
+  @Delete()
+  async removes(@Body('ids') ids: string[]) {
+    const result = await this.questionService.removes(ids);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+    return result;
+  }
 }

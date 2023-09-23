@@ -1,146 +1,182 @@
-import {selectQuiz} from '@/redux/slicer/Quiz';
-import {createOption, createQuestion, getQuestionnaires, getQuizId} from '@/services/ant-design-pro/api';
-import {EditOutlined, PlusOutlined} from '@ant-design/icons';
-import type {ProFormInstance} from '@ant-design/pro-form';
-import type {ActionType} from '@ant-design/pro-table';
-import {Button, Card, Divider, message, Tooltip} from 'antd';
-import React, {useRef, useState} from 'react';
-import {useSelector} from 'react-redux';
-import DynamicField from '../DynamicField';
-import CreateForm from './components/CreateForm';
-import ProTable, {ProColumns} from "@ant-design/pro-table";
-import {history} from "@@/core/history";
-import {FooterToolbar} from "@ant-design/pro-layout";
-import {useIntl, useModel} from "@@/exports";
-import { TableListPagination } from './data';
+import CreateForm from '@/pages/Question/components/CreateForm';
+import UpdateForm from '@/pages/Question/components/UpdateForm';
+import DeleteConfirm from '@/pages/Table/DeleteConfirm';
+import { selectQuiz } from '@/redux/slicer/Quiz';
+import {
+  createOption,
+  createQuestion,
+  deleteQuestions,
+  getQuizId,
+  updateOption,
+  updateQuestion,
+} from '@/services/ant-design-pro/api';
+import { getIds, mergeObjects } from '@/utils/functions';
+import { useIntl } from '@@/exports';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import type { ProFormInstance } from '@ant-design/pro-form';
+import { FooterToolbar } from '@ant-design/pro-layout';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import ProTable from '@ant-design/pro-table';
+import { Button, Card, message, Tooltip } from 'antd';
+import React, { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-const defaultFormItemLayout = {
-  labelCol: {
-    xs: {span: 6},
-  },
-  wrapperCol: {
-    xs: {span: 12},
-  },
-};
-const handleAdd = async (fields: any, quiz) => {
-  console.log(fields);
-  const hide = message.loading('error');
-  const data = {
-    question: fields.question,
-    quizId: quiz.id,
-  };
+const handleAdd = async (fields: any, quiz: { id: any }, translation: any) => {
+  const hideLoadingMessage = message.loading('error');
   try {
-    hide();
-    const result = await createQuestion(data);
-    console.log('handleUpdate', result);
-    const opt1 = {
-      questionId: result.id,
-      text: fields.options_1,
-      isCorrect: fields.isCorrect_1,
+    hideLoadingMessage();
+    const questionData = {
+      quizId: quiz.id,
+      title: fields.question,
+      type: fields.type,
+      image: null,
     };
-    const resultopt1 = await createOption(opt1);
-    console.log('🚀 ~ file: index.tsx ~ line 36 ~ handleAdd ~ resultopt1', resultopt1);
-    const opt2 = {
-      questionId: result.id,
-      text: fields.options_2,
-      isCorrect: fields.isCorrect_2,
-    };
-    const resultopt2 = await createOption(opt2);
-
-    const opt3 = {
-      questionId: result.id,
-      text: fields.options_3,
-      isCorrect: fields.isCorrect_3,
-    };
-    const resultopt3 = await createOption(opt3);
-
-    const opt4 = {
-      questionId: result.id,
-      text: fields.options_4,
-      isCorrect: fields.isCorrect_4,
-    };
-    const resultopt4 = await createOption(opt4);
-
-    const opt5 = {
-      questionId: result.id,
-      text: fields.options_5,
-      isCorrect: fields.isCorrect_5,
-    };
-    const resultopt5 = await createOption(opt5);
-
-    const opt6 = {
-      questionId: result.id,
-      text: fields.options_6,
-      isCorrect: fields.isCorrect_6,
-    };
-    const resultopt6 = await createOption(opt6);
-
-    message.success('Sucesso');
-    // if (result.status == 200) {
-    //   const res =
-    //     await WebApi.TestamentsApi.apiV1TestamentsTestamentIdPersonsPersonIdAddressesAddressIdPut(
-    //       testamentIdUrl as string,
-    //       id,
-    //       addressId as string,
-    //       addressHeirs,
-    //     );
-    //   if (res.status == 200) {
-    //     message.success(intl.formatMessage({ id: 'app.updated.success' }));
-    //   } else {
-    //     message.error(intl.formatMessage({ id: 'app.updated.fail' }) + ' - ' + res.data.message);
-    //     return false;
-    //   }
-    // } else {
-    //   message.error(intl.formatMessage({ id: 'app.updated.fail' }) + ' - ' + result.data.message);
-    //   return false;
-    // }
+    const result = await createQuestion(questionData);
+    if (result.success) {
+      for (let i = 0; i < fields.options.length; i++) {
+        fields.options[i].questionId = result.data.id;
+      }
+      const res = await createOption(fields.options);
+      if (res.success) {
+        message.success(translation.formatMessage({ id: 'app.created.success' }));
+      } else {
+        message.error(
+          translation.formatMessage({ id: 'app.updated.fail' }) + ' - ' + res.data.message,
+        );
+        return false;
+      }
+    } else {
+      message.error(
+        translation.formatMessage({ id: 'app.updated.fail' }) + ' - ' + result.data.message,
+      );
+      return false;
+    }
     return true;
   } catch (error) {
-    hide();
-    message.error('Falha');
+    hideLoadingMessage();
+    message.error(translation.formatMessage({ id: 'app.created.fail' }));
+    return false;
+  }
+};
+
+const handleUpdate = async (translation: any, fields: any, currentRow?: API.QuestionDTO) => {
+  const hideLoadingMessage = message.loading(translation.formatMessage({ id: 'app.waiting' }));
+  if (!currentRow) {
+    // Handle the case where currentRow is undefined.
+    // Perhaps throw an error or return from the function.
+    return false;
+  }
+  const merged = mergeObjects(currentRow, fields);
+  try {
+    hideLoadingMessage();
+    const questionDetails = {
+      id: merged.id,
+      quizId: merged.quizId,
+      title: merged.title,
+      type: merged.type,
+      image: merged.image,
+    };
+    const res = await updateQuestion(questionDetails);
+    if (res.success) {
+      let allUpdatesSuccess = true;
+      if (merged && merged.answers) {
+        for (let i = 0; i < merged?.answers.length; i++) {
+          const option = merged?.answers[i];
+          const response = await updateOption(option);
+          if (!response.success) {
+            allUpdatesSuccess = false;
+            message.error(
+              translation.formatMessage({ id: 'app.updated.fail' }) + ' - ' + response.message,
+            );
+            return false;
+          }
+        }
+      }
+      if (allUpdatesSuccess) {
+        message.success(translation.formatMessage({ id: 'app.update.success' }));
+      }
+    } else {
+      message.error(translation.formatMessage({ id: 'app.updated.fail' }) + ' - ' + res.message);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    hideLoadingMessage();
+    message.error(translation.formatMessage({ id: 'app.update.fail' }));
+    return false;
+  }
+};
+
+const handleRemove = async (t: any, selectedRows: API.QuestionDTO[]) => {
+  const hideLoadingMessage = message.loading('error');
+  try {
+    hideLoadingMessage();
+    const ids = getIds(selectedRows, 'id');
+    console.log(ids);
+    const res = await deleteQuestions(ids);
+    if (res.success) {
+      message.success(t.formatMessage({ id: 'app.created.success' }));
+    } else {
+      message.error(t.formatMessage({ id: 'app.updated.fail' }) + ' - ' + res);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    hideLoadingMessage();
+    message.error(t.formatMessage({ id: 'app.created.fail' }));
     return false;
   }
 };
 
 const Question: React.FC = () => {
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const t = useIntl();
+  const { quiz } = useSelector(selectQuiz);
+  // const { initialState } = useModel('@@initialState');
   const actionRef = useRef<ActionType>();
   const createFormRef = useRef<ProFormInstance>();
-  const {quiz} = useSelector(selectQuiz);
-  const [searchTerm, handleSearchTerm] = useState<string>('');
-  const [selectedRowsState, setSelectedRows] = useState([]);
-  const {initialState} = useModel('@@initialState');
+  const updateFormRef = useRef<ProFormInstance>();
+  const [currentRow, setCurrentRow] = useState<API.QuestionDTO>();
+  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
+  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [selectedRowsState, setSelectedRows] = useState<API.QuestionDTO[]>([]);
+  // const [searchTerm, handleSearchTerm] = useState<string>('');
 
-  const columns: ProColumns = [
+  const columns: ProColumns<API.QuestionDTO>[] | undefined = [
     {
-      title: 'ID',
+      title: t.formatMessage({ id: 'component.quiz.id' }),
       dataIndex: 'id',
-      sorter: true,
-      search: false,
+      // sorter: true,
+      // search: false,
       copyable: true,
       width: '20%',
     },
     {
-      title: 'Questão',
-      dataIndex: 'question',
+      title: t.formatMessage({ id: 'app.generic.question' }),
+      dataIndex: 'title',
       sorter: true,
       defaultSortOrder: 'ascend',
       width: '60%',
     },
     {
-      title: 'Ações',
+      title: t.formatMessage({ id: 'app.generic.actions' }),
       dataIndex: 'option',
       valueType: 'option',
       width: '20%',
-      render: (_, record) => [
-        <Tooltip
-          key="personal-data"
-          title={'Editar'}
-        >
-          <Button key="downloadTestament" type="link" size="large" onClick={() => {}}>
+      render: (_, record: React.SetStateAction<API.QuestionDTO | undefined>) => [
+        <Tooltip key="personal-data" title={t.formatMessage({ id: 'app.generic.edit' })}>
+          <Button
+            key="edit"
+            type="link"
+            size="large"
+            onClick={() => {
+              if (record) {
+                setCurrentRow(record);
+                handleUpdateModalVisible(true);
+              }
+            }}
+          >
             <EditOutlined />
-            Editar
+            {t.formatMessage({ id: 'app.generic.edit' })}
           </Button>
         </Tooltip>,
       ],
@@ -148,24 +184,10 @@ const Question: React.FC = () => {
   ];
 
   return (
-    <Card style={{borderWidth: '1px'}}>
-      {/* <Typography.Title level={4}>Questão</Typography.Title> */}
-      <Button
-        type="primary"
-        key="primary"
-        onClick={() => {
-          createFormRef.current?.resetFields();
-          handleModalVisible(true);
-        }}
-      >
-        <PlusOutlined/> Nova Questão
-      </Button>
-      {/*<Divider dashed>Adicionar Querstões</Divider>*/}
-      {/*<DynamicField {...defaultFormItemLayout} />*/}
-
+    <Card style={{ borderWidth: '1px' }}>
       <>
-        <ProTable<TableListPagination>
-          headerTitle={'Lista de Questões'}
+        <ProTable<API.QuestionDTO, API.TableListPagination>
+          headerTitle={t.formatMessage({ id: 'pages.questions.listOfQuestions' })}
           actionRef={actionRef}
           rowKey="id"
           pagination={{
@@ -174,49 +196,36 @@ const Question: React.FC = () => {
             showSizeChanger: true,
           }}
           toolbar={{
-            search: {
-              onSearch: (value: string) => {
-                console.log('SearchBy', value);
-                handleSearchTerm(value);
-                actionRef.current?.clearSelected?.();
-                actionRef.current?.reloadAndRest?.();
-              },
-            },
+            // search: {
+            //   onSearch: (value: string) => {
+            //     console.log('SearchBy', value);
+            //     handleSearchTerm(value);
+            //     actionRef.current?.clearSelected?.();
+            //     actionRef.current?.reloadAndRest?.();
+            //   },
+            // },
             actions: [
               <Button
                 type="primary"
                 key="primary"
                 onClick={async () => {
-                  history.push({
-                    pathname: '/questionnaires/new',
-                  });
+                  createFormRef.current?.resetFields();
+                  handleModalVisible(true);
                 }}
               >
-                <PlusOutlined/> Novo
+                <PlusOutlined /> {t.formatMessage({ id: 'pages.questions.newQuestion' })}
               </Button>,
             ],
           }}
           search={false}
-          request={async (params, sort) => {
-            const attrName = Object.keys(sort)[0];
-            let sortValue = '';
-            if (attrName) {
-              sortValue = attrName + ' ';
-              if (sort[attrName] == 'descend') {
-                sortValue += 'desc';
-              } else {
-                sortValue += 'asc';
-              }
-            }
-
+          request={async (params, sort, filter) => {
+            console.log(params, sort, filter);
             const result = await getQuizId(quiz);
 
-            console.log('tableRequest', result);
-
             return {
-              data: result.questions,
-              // success: result.data.isSuccess,
-              // total: result.meta.totalItems,
+              data: result.data?.question,
+              success: result.success,
+              total: result.data?.question.length,
             };
           }}
           columns={columns}
@@ -230,7 +239,7 @@ const Question: React.FC = () => {
           <FooterToolbar
             extra={
               <div>
-                {intl.formatMessage({id: 'app.generic.selected'})}
+                {t.formatMessage({ id: 'app.generic.selected' })}
                 <a
                   style={{
                     fontWeight: 600,
@@ -238,17 +247,17 @@ const Question: React.FC = () => {
                 >
                   {selectedRowsState.length}
                 </a>{' '}
-                {intl.formatMessage({id: 'app.generic.item'})} &nbsp;&nbsp;
+                {t.formatMessage({ id: 'app.generic.item' })} &nbsp;&nbsp;
               </div>
             }
           >
-            {/*<DeleteConfirm*/}
-            {/*  onConfirm={async () => {*/}
-            {/*    await handleRemove(intl, selectedRowsState);*/}
-            {/*    setSelectedRows([]);*/}
-            {/*    actionRef.current?.reloadAndRest?.();*/}
-            {/*  }}*/}
-            {/*/>*/}
+            <DeleteConfirm
+              onConfirm={async () => {
+                await handleRemove(t, selectedRowsState);
+                setSelectedRows([]);
+                actionRef.current?.reloadAndRest?.();
+              }}
+            />
           </FooterToolbar>
         )}
       </>
@@ -261,9 +270,28 @@ const Question: React.FC = () => {
           createFormRef.current?.resetFields();
         }}
         onFinish={async (value) => {
-          const success = await handleAdd(value, quiz);
+          const success = await handleAdd(value, quiz, t);
           if (success) {
             handleModalVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
+        }}
+      />
+
+      <UpdateForm
+        initialValues={currentRow}
+        formRef={updateFormRef}
+        modalVisible={updateModalVisible}
+        onVisibleChange={async (v) => {
+          handleUpdateModalVisible(v);
+          updateFormRef.current?.resetFields();
+        }}
+        onFinish={async (value) => {
+          const success = await handleUpdate(t, value as any, currentRow);
+          if (success) {
+            handleUpdateModalVisible(false);
             if (actionRef.current) {
               actionRef.current.reload();
             }

@@ -22,18 +22,56 @@ enum Type {
 }
 
 model User {
-  id             String  @id @default(uuid())
+  id             String   @id @default(uuid())
   login          String
   password       String
   name           String
   surname        String?
-  role           Role    @default(CLIENT)
+  role           Role     @default(CLIENT)
   questionnaires Quiz[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  gamification   UserGamification?
+  gamificationId String?
+  UserBadge      UserBadge[]
 
   @@map("user")
+}
+
+model UserGamification {
+  id                       String      @id @default(uuid())
+  points                   Int         @default(0)
+  level                    Int         @default(0)
+  dailyChallengesCompleted Int         @default(0)
+  currentStreak            Int         @default(0)
+  rewardPoints             Int         @default(0)
+  lastQuizTaken            DateTime?
+  quizzesCompleted         Int         @default(0)
+  user                     User        @relation(fields: [userId], references: [id])
+  userId                   String      @unique
+  UserBadge                UserBadge[]
+
+  @@map("user_gamification")
+}
+
+model Badge {
+  id          String      @id @default(uuid())
+  name        String
+  description String
+  users       UserBadge[]
+}
+
+model UserBadge {
+  userId             String
+  user               User             @relation(fields: [userId], references: [id])
+  badgeId            String
+  badge              Badge            @relation(fields: [badgeId], references: [id])
+  date               DateTime         @default(now())
+  userGamificationId String
+  userGamification   UserGamification @relation(fields: [userGamificationId], references: [id])
+
+  @@id([userId, badgeId])
 }
 
 model Category {
@@ -44,7 +82,7 @@ model Category {
 
 model Quiz {
   id          String   @id @default(uuid())
-  title       String   @unique
+  title       String
   description String?
   published   Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -65,7 +103,7 @@ model Question {
   type  Type    @default(DISCURSIVE)
   image String?
 
-  quiz   Quiz?   @relation(fields: [quizId], references: [id])
+  quiz   Quiz?   @relation(fields: [quizId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   quizId String?
 
   answers Answer[]
@@ -73,9 +111,9 @@ model Question {
 
 model Answer {
   id        String  @id @default(uuid())
-  text      String  @unique
+  text      String
   isCorrect Boolean @default(value: false)
 
-  question   Question? @relation(fields: [questionId], references: [id])
+  question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   questionId String?
 }

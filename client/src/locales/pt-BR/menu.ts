@@ -52,4 +52,6 @@ export default {
 
   'menu.list.table-questionnaires': 'Lista de Questionários',
   'menu.list.table-answer': 'Tabela de Respostas',
+  'menu.admin.RegisterQuestionnaires': 'Cadastrar Questionários',
+  'menu.admin.EditQuestionnaires': 'Editar Questionários',
 };

@@ -13,10 +13,10 @@ export const Header = styled.View`
 
   position: absolute;
   margin-top: ${getStatusBarHeight() + 18}px;
-  margin-left: 24px;
+  margin-left: 20px;
 `;
 
-export const CarImages = styled.View`
+export const Divider = styled.View`
   margin-top: ${getStatusBarHeight() + 32}px;
 `;
 

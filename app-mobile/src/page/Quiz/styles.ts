@@ -44,7 +44,7 @@ export const TextIndexQuestion = styled.Text`
 export const TitleQuestion = styled.Text`
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(30)}px;
+  font-size: ${RFValue(24)}px;
 `;
 
 export const ContainerOptions = styled.View``;

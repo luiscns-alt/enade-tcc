@@ -45,6 +45,15 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Gerar e Executar Migrações do Prisma
+<p>
+Você precisará gerar e executar migrações para aplicar as alterações no banco de dados. Você pode fazer isso com os seguintes comandos:
+</p>
+
+````shell
+npx prisma migrate dev --name "descrição-migração"
+````
+
 ## Test
 
 ```bash

@@ -1,74 +1,104 @@
-import {save, selectQuiz} from '@/redux/slicer/Quiz';
-import {createQuiz, updateQuiz} from '@/services/ant-design-pro/api';
-import {PageContainer} from '@ant-design/pro-components';
-import {Button, Form, message, Steps} from 'antd';
-import {Content} from 'antd/lib/layout/layout';
-import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import ViewQuestionnaire from '@/pages/ViewQuestionnaire';
+import { save, selectQuiz } from '@/redux/slicer/Quiz';
+import { createQuiz, getQuizId, updateQuiz } from '@/services/ant-design-pro/api';
+import { history, useParams } from '@@/exports';
+import { PageContainer } from '@ant-design/pro-components';
+import { Button, Form, message, Steps } from 'antd';
+import { Content } from 'antd/lib/layout/layout';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIntl } from 'umi';
 import Question from '../Question';
 import Quiz from '../Quiz';
-import {useIntl} from "umi";
-
-const steps = [
-  {
-    title: 'Informações sobre o Questionário ',
-    content: <Quiz/>,
-  },
-  {
-    title: 'Título da Questão',
-    content: <Question/>,
-  },
-  {
-    title: 'Last',
-    content: 'Last-content',
-  },
-];
 
 const QuestionnairesData: React.FC = () => {
-  const intl = useIntl();
+  const t = useIntl();
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [current, setCurrent] = useState(0);
-  const {quiz} = useSelector(selectQuiz);
-
+  const { quiz } = useSelector(selectQuiz);
+  const quizId = useParams();
+  console.log(quiz);
   async function newQuiz() {
     try {
-      const msg = await createQuiz(quiz);
-      // Salva msg
-      await dispatch(save({...quiz, id: msg.id}));
-      message.success(intl.formatMessage({id: 'app.created.success'}));
+      const { data } = await createQuiz(quiz);
+      dispatch(save({ ...quiz, id: data.id }));
+      message.success(t.formatMessage({ id: 'app.created.success' }));
       setCurrent(current + 1);
       return true;
     } catch (error) {
       message.error('Error');
       console.log(error);
-      message.error(intl.formatMessage({id: 'app.created.fail'}));
+      message.error(t.formatMessage({ id: 'app.created.fail' }));
       return false;
     }
   }
 
   async function editQuiz() {
     try {
-      const res = await updateQuiz(quiz);
-      await dispatch(save({...quiz, id: res.id}));
-      message.success(intl.formatMessage({id: 'app.update.success'}));
+      const { data } = await updateQuiz(quiz);
+      dispatch(save({ ...data }));
+      message.success(t.formatMessage({ id: 'app.update.success' }));
       setCurrent(current + 1);
       return true;
     } catch (error) {
       message.error('Error');
       console.log(error);
-      message.error(intl.formatMessage({id: 'app.created.fail'}));
+      message.error(t.formatMessage({ id: 'app.update.fail' }));
       return false;
     }
   }
 
-  const STPPER_FUNCTION = {
-    0: () => {
-      if (typeof quiz.id != 'undefined') {
-        editQuiz()
-      } else {
-        newQuiz();
-      }
+  async function fetchQuizId() {
+    if (quizId.id) {
+      const result = await getQuizId(quizId);
+      const quizData = {
+        id: result.data?.id,
+        title: result.data?.title,
+        description: result.data?.description,
+        categoryId: result.data?.categoryId,
+      };
+      dispatch(save({ ...quizData }));
+
+      form.setFieldsValue({
+        title: result.data?.title,
+        description: result.data?.description,
+        categoryId: result.data?.categoryId,
+      });
+    }
+  }
+
+  useEffect(() => {
+    const load = async () => {
+      await fetchQuizId();
+    };
+    load();
+  }, []);
+
+  const steps = [
+    {
+      title: t.formatMessage({ id: 'app.generic.step.quiz' }),
+      content: <Quiz />,
+    },
+    {
+      title: t.formatMessage({ id: 'app.generic.step.question' }),
+      content: <Question />,
+    },
+    {
+      title: 'Finalizar',
+      content: <ViewQuestionnaire />,
+    },
+  ];
+
+  const STEPPER_FUNCTION = {
+    0: async () => {
+      form.validateFields().then(async () => {
+        if (quiz.id) {
+          await editQuiz();
+        } else {
+          await newQuiz();
+        }
+      });
     },
     1: () => {
       setCurrent(current + 1);
@@ -77,34 +107,35 @@ const QuestionnairesData: React.FC = () => {
 
   const next = () => {
     // setCurrent(current + 1);
-    STPPER_FUNCTION[current]();
+    STEPPER_FUNCTION[current]();
   };
 
   const prev = () => {
     setCurrent(current - 1);
   };
+
   return (
-    <PageContainer content="Cadastra Questionários">
-      <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
-        <Steps style={{paddingBottom: '15px'}} current={current}>
+    <PageContainer>
+      <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+        <Steps style={{ paddingBottom: '15px' }} current={current}>
           {steps.map((item) => (
-            <Steps.Step key={item.title} title={item.title}/>
+            <Steps.Step key={item.title} title={item.title} />
           ))}
         </Steps>
 
-        <Form labelCol={{span: 8}} wrapperCol={{span: 16}} autoComplete="off" form={form}>
+        <Form labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} autoComplete="off" form={form}>
           <div className="steps-content">{steps[current].content}</div>
         </Form>
 
-        <div className="steps-action" style={{paddingTop: '15px'}}>
+        <div className="steps-action" style={{ paddingTop: '15px' }}>
           {current < steps.length - 1 && (
             <Button htmlType="submit" type="primary" onClick={next}>
-              Próximo
+              {t.formatMessage({ id: 'app.generic.next' })}
             </Button>
           )}
           {current === steps.length - 1 && (
-            <Button type="primary" onClick={() => alert('Processing complete!')}>
-              Concluir
+            <Button type="primary" onClick={() => history.push('/')}>
+              {t.formatMessage({ id: 'app.generic.finish' })}
             </Button>
           )}
           {current > 0 && (
@@ -114,7 +145,7 @@ const QuestionnairesData: React.FC = () => {
               }}
               onClick={() => prev()}
             >
-              anterior
+              {t.formatMessage({ id: 'app.generic.previous' })}
             </Button>
           )}
         </div>

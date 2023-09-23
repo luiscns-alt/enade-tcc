@@ -1,3 +1,4 @@
+import generic from '@/locales/pt-BR/generic';
 import component from './pt-BR/component';
 import globalHeader from './pt-BR/globalHeader';
 import menu from './pt-BR/menu';
@@ -20,4 +21,5 @@ export default {
   ...pwa,
   ...component,
   ...pages,
+  ...generic,
 };

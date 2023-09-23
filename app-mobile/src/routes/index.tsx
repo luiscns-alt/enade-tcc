@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 
 import { useAuth } from '../contexts/auth';
-import { StackRoutes } from './app.routes';
+import { AppRoutes } from './app.routes';
 import { AuthRoutes } from './auth.routes';
 
 // import AuthRoutes from '../routes/auth.routes';
@@ -25,7 +25,7 @@ const Routes: React.FC = () => {
     );
   }
 
-  return signed ? <StackRoutes /> : <AuthRoutes />;
+  return signed ? <AppRoutes /> : <AuthRoutes />;
 };
 
 export default Routes;

@@ -43,7 +43,7 @@ export default [
     component: './Questionnaires',
   },
   {
-    name: 'testament-personal-data',
+    name: 'admin.EditQuestionnaires',
     hideInMenu: true,
     path: '/questionnaires/:id',
     component: '/Questionnaires',

@@ -67,4 +67,8 @@ export default {
   'pages.searchTable.tenThousand': '0000',
   'pages.searchTable.batchDeletion': 'deleção em lote',
   'pages.searchTable.batchApproval': 'aprovação em lote',
+  'pages.admin.table': 'Lista com os questinarios utilizados pelo sistema.',
+  'pages.admin.RegisterQuestionnaires': 'Cadastra Questionários',
+  'pages.questions.listOfQuestions': 'Lista de Questões',
+  'pages.questions.newQuestion': 'Nova Questão',
 };

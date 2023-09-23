@@ -1,4 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CreateUserGamificationDto } from '../user-gamification/dto/create-user-gamification.dto';
+import { UserGamificationService } from '../user-gamification/user-gamification.service';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto, LoginUserDto } from 'src/users/users.user.dto';
@@ -14,6 +16,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
+    private readonly userGamificationService: UserGamificationService,
   ) {}
 
   async register(userDto: CreateUserDto): Promise<RegistrationStatus> {
@@ -24,6 +27,27 @@ export class AuthService {
 
     try {
       status.data = await this.usersService.create(userDto);
+      const userGamificationData: CreateUserGamificationDto = {
+        userId: status.data.id,
+        points: 0,
+        level: 0,
+        dailyChallengesCompleted: 0,
+        currentStreak: 0,
+        rewardPoints: 0,
+        quizzesCompleted: 0,
+      };
+      const gamificationStatus =
+        await this.userGamificationService.createUserGamification(
+          userGamificationData,
+        );
+
+      if (!gamificationStatus.success) {
+        status = {
+          success: false,
+          message: gamificationStatus.message,
+        };
+        return status;
+      }
     } catch (err) {
       status = {
         success: false,

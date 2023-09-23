@@ -1,18 +1,17 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { FooterToolbar,PageContainer } from '@ant-design/pro-layout';
+import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
-import React,{ useRef,useState } from 'react';
-import { history,useIntl,useModel } from 'umi';
+import React, { useRef, useState } from 'react';
+import { history, useIntl, useModel } from 'umi';
 
 import type { ProFormInstance } from '@ant-design/pro-form';
-import type { ActionType,ProColumns } from '@ant-design/pro-table';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { TableListPagination } from './data';
 
-import { getAnswer,getByIdAnswer } from '@/services/ant-design-pro/api';
+import { getAnswer, getByIdAnswer } from '@/services/ant-design-pro/api';
 import ProTable from '@ant-design/pro-table';
 import CreateForm from './components/createForm';
-
 
 const handleDocument = async (intl: any, testamentId: String) => {};
 

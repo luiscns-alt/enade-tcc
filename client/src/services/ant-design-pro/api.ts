@@ -1,6 +1,12 @@
 // @ts-ignore
 /* eslint-disable */
+import {
+  ANSWER_ENDPOINT,
+  QUESTION_ENDPOINT,
+  QUIZ_ENDPOINT,
+} from '@/services/ant-design-pro/endpoints';
 import { request } from '@umijs/max';
+import { Params } from 'react-router';
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
@@ -12,7 +18,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('http://localhost:3005/auth/login', {
+  return request<API.LoginResult>('http://localhost:3000/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -26,29 +32,42 @@ export const TOKEN_KEY = '@userToken';
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 
 /** 获取当前的用户 GET /api/currentUser */
-export async function currentUser(options?: { [key: string]: any }) {
+export async function getUser(options?: { [key: string]: any }) {
   const token = getToken();
-  return request<{
-    data: API.CurrentUser;
-  }>('http://localhost:3005/auth/user', {
+  console.log(getToken());
+  return request<API.CurrentUser>('http://localhost:3000/user/me', {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),
   });
 }
 
-export async function getQuestionnaires(options?: { [key: string]: any }) {
+export async function getQuestionnaires(
+  title?: string,
+  order?: any,
+  options?: { [key: string]: any },
+) {
   const token = getToken();
-  return request<API.NoticeIconList>('http://localhost:3005/quiz', {
+  return request<API.QuestionsApiResponse>(QUIZ_ENDPOINT, {
     method: 'GET',
+    params: { title, order },
     headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),
   });
 }
 
-export async function getQuizId(body, options?: { [key: string]: any }) {
+export async function deleteQuestionnaires(options?: { [key: string]: any }) {
   const token = getToken();
-  return request<API.NoticeIconList>(`http://localhost:3005/quiz/${body.id}`, {
+  return request<API.DeleteApiResponse>(QUIZ_ENDPOINT, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+    ...(options || {}),
+  });
+}
+
+export async function getQuizId(body: Readonly<Params<string>>, options?: { [key: string]: any }) {
+  const token = getToken();
+  return request<API.QuizApiResponse>(`${QUIZ_ENDPOINT}/${body.id}`, {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),
@@ -57,7 +76,7 @@ export async function getQuizId(body, options?: { [key: string]: any }) {
 
 export async function createQuiz(body: API.LoginParams, options?: { [key: string]: any }) {
   const token = getToken();
-  return request('http://localhost:3005/quiz/create', {
+  return request('http://localhost:3000/quiz', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -68,9 +87,18 @@ export async function createQuiz(body: API.LoginParams, options?: { [key: string
   });
 }
 
+export async function deleteQuestions(options?: { [key: string]: any }) {
+  const token = getToken();
+  return request<API.DeleteApiResponse>(QUESTION_ENDPOINT, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+    ...(options || {}),
+  });
+}
+
 export async function updateQuiz(body: API.LoginParams, options?: { [key: string]: any }) {
   const token = getToken();
-  return request(`http://localhost:3005/quiz/${body.id}`, {
+  return request(`http://localhost:3000/quiz/${body.id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -81,9 +109,9 @@ export async function updateQuiz(body: API.LoginParams, options?: { [key: string
   });
 }
 
-export async function createQuestion(body, options?: { [key: string]: any }) {
+export async function createQuestion(body: any, options?: { [key: string]: any }) {
   const token = getToken();
-  return request('http://localhost:3005/question', {
+  return request(QUESTION_ENDPOINT, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -94,10 +122,39 @@ export async function createQuestion(body, options?: { [key: string]: any }) {
   });
 }
 
-export async function createOption(body, options?: { [key: string]: any }) {
+export async function updateQuestion(body: API.QuestionDTO, options?: { [key: string]: any }) {
   const token = getToken();
-  return request('http://localhost:3005/question/option', {
+  return request(`${QUESTION_ENDPOINT}/${body.id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function createOption(
+  body: { questionId: any; text: any; isCorrect: any },
+  options?: { [key: string]: any },
+) {
+  const token = getToken();
+  return request('http://localhost:3000/answer', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function updateOption(body: API.AnswerDTO, options?: { [key: string]: any }) {
+  const token = getToken();
+  return request<API.QuestionUpdateResult>(`${ANSWER_ENDPOINT}/${body.id}`, {
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -109,7 +166,16 @@ export async function createOption(body, options?: { [key: string]: any }) {
 
 export async function getAnswer(options?: { [key: string]: any }) {
   const token = getToken();
-  return request<API.NoticeIconList>('http://localhost:3005/student', {
+  return request<API.NoticeIconList>('http://localhost:3000/student', {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+    ...(options || {}),
+  });
+}
+
+export async function getCategory(options?: { [key: string]: any }) {
+  const token = getToken();
+  return request<API.CategoryList>('http://localhost:3000/categories', {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),
@@ -119,7 +185,7 @@ export async function getAnswer(options?: { [key: string]: any }) {
 export async function getByIdAnswer(body: API.LoginParams, options?: { [key: string]: any }) {
   console.log(body);
   const token = getToken();
-  return request(`http://localhost:3005/student/${body}`, {
+  return request(`http://localhost:3000/student/${body}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

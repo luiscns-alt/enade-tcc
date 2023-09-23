@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { UserGamificationService } from '../user-gamification/user-gamification.service';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
@@ -24,7 +25,13 @@ import { PrismaService } from '../prisma.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, JwtStrategy, PrismaService],
+  providers: [
+    AuthService,
+    UsersService,
+    JwtStrategy,
+    PrismaService,
+    UserGamificationService,
+  ],
   exports: [PassportModule, JwtModule],
 })
 export class AuthModule {}

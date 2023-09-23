@@ -5,6 +5,7 @@ import { QuizModule } from './quiz/quiz.module';
 import { CategoriesModule } from './categories/categories.module';
 import { QuestionModule } from './question/question.module';
 import { AnswerModule } from './answer/answer.module';
+import { UserGamificationModule } from './user-gamification/user-gamification.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AnswerModule } from './answer/answer.module';
     CategoriesModule,
     QuestionModule,
     AnswerModule,
+    UserGamificationModule,
   ],
   controllers: [],
   providers: [],

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Body } from '@nestjs/common/decorators';
-import { Quiz } from '@prisma/client';
+import { Prisma, Quiz } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
@@ -26,14 +26,33 @@ export class QuizService {
     return status;
   }
 
-  async findAll(): Promise<QuizFind> {
+  async findAll(
+    title?: string,
+    order?: { [key: string]: 'asc' | 'desc' },
+  ): Promise<QuizFind> {
     let status: QuizFind = {
       success: true,
       message: 'QUIZ_FIND_ALL_SUCCESS',
     };
+    const whereCondition = title
+      ? { title: { contains: title }, published: true }
+      : { published: true };
     try {
       status.data = await this.prisma.quiz.findMany({
-        where: { published: true },
+        where: whereCondition,
+        orderBy: [
+          { title: order?.title || 'asc' },
+          { description: order?.description || 'asc' },
+          { published: order?.publicado || 'asc' },
+        ],
+      });
+      status.totalItemCount = await this.prisma.quiz.count({
+        where: whereCondition,
+        orderBy: [
+          { title: order?.title || 'asc' },
+          { description: order?.description || 'asc' },
+          { published: order?.publicado || 'asc' },
+        ],
       });
     } catch (error) {
       status = {
@@ -102,6 +121,24 @@ export class QuizService {
     return status;
   }
 
+  async removes(ids: string[]): Promise<QuizStatus> {
+    let status: QuizStatus = {
+      success: true,
+      message: 'QUIZ_REMOVES_SUCCESS',
+    };
+    try {
+      status.data = await this.prisma.quiz.deleteMany({
+        where: { id: { in: ids } },
+      });
+    } catch (error) {
+      status = {
+        success: false,
+        message: error,
+      };
+    }
+    return status;
+  }
+
   findDrafts() {
     return this.prisma.quiz.findMany({ where: { published: false } });
   }
@@ -110,11 +147,12 @@ export class QuizService {
 export interface QuizStatus {
   success: boolean;
   message: string;
-  data?: Quiz;
+  data?: Quiz | Prisma.BatchPayload;
 }
 
 export interface QuizFind {
   success: boolean;
   message: string;
   data?: Quiz[];
+  totalItemCount?: number;
 }

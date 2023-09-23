@@ -8,6 +8,7 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { QuizService } from './quiz.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
@@ -27,8 +28,11 @@ export class QuizController {
   }
 
   @Get()
-  async findAll() {
-    const result = await this.quizService.findAll();
+  async findAll(
+    @Query('title') title?: string,
+    @Query('order') order?: { [key: string]: 'asc' | 'desc' },
+  ) {
+    const result = await this.quizService.findAll(title, order);
     if (!result.success) {
       throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
     }
@@ -61,6 +65,15 @@ export class QuizController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const result = await this.quizService.remove(id);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+    return result;
+  }
+
+  @Delete()
+  async removes(@Body('ids') ids: string[]) {
+    const result = await this.quizService.removes(ids);
     if (!result.success) {
       throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
     }

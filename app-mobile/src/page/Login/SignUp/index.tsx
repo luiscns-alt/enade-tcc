@@ -1,13 +1,11 @@
 import React from 'react';
 import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
+import {FieldValues, SubmitHandler, useForm} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigation } from '@react-navigation/native';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
-
 import { Button } from '../../../components/Button';
 import { InputForm } from '../../../components/Form/InputForm';
-
 import {
   Container,
   Fields,
@@ -20,6 +18,7 @@ import {
 } from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAuth } from '../../../contexts/auth';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface FormData {
   name: string;
@@ -36,7 +35,7 @@ const schema = Yup.object().shape({
 });
 
 export function SignUp() {
-  const { navigate } = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const { registerUser } = useAuth();
   const {
     control,
@@ -58,7 +57,7 @@ export function SignUp() {
   }
 
   function handleLogin() {
-    navigate('SignIn');
+    navigation.navigate('SignIn');
   }
 
   return (
@@ -87,7 +86,7 @@ export function SignUp() {
               placeholder='Email'
               autoCorrect={false}
               autoCapitalize='none'
-              autoCompleteType='email'
+              autoComplete='email'
               textContentType='emailAddress'
               keyboardType='email-address'
               error={errors.email && errors.email.message}
@@ -111,7 +110,7 @@ export function SignUp() {
               error={errors.confirmPassword && errors.confirmPassword.message}
             />
           </Fields>
-          <Button onPress={handleSubmit(handleRegister)} title='Cadastrar' />
+          <Button onPress={handleSubmit(handleRegister as SubmitHandler<FieldValues>)} title='Cadastrar' />
         </Form>
         <Row>
           <Text>Já tem uma conta? </Text>

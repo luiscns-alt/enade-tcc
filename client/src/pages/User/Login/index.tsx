@@ -1,14 +1,6 @@
-import Footer from '@/components/Footer';
-import { currentUser, login } from '@/services/ant-design-pro/api';
+import { getUser, login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
-import {
-  AlipayCircleOutlined,
-  LockOutlined,
-  MobileOutlined,
-  TaobaoCircleOutlined,
-  UserOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons';
+import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import {
   LoginForm,
   ProFormCaptcha,
@@ -43,12 +35,12 @@ const Login: React.FC = () => {
   const intl = useIntl();
 
   const fetchUserInfo = async () => {
-    const userInfo = await currentUser();
-    console.log(userInfo);
-    if (userInfo) {
+    const currentUser = await getUser();
+    console.log(currentUser);
+    if (currentUser) {
       await setInitialState((s) => ({
         ...s,
-        currentUser: userInfo,
+        currentUser,
       }));
     }
   };
@@ -58,7 +50,8 @@ const Login: React.FC = () => {
       // 登录
       const msg = await login({ ...values, type });
       // if (msg.status === 201) {
-      localStorage.setItem('@userToken', msg.access_token);
+      console.log(msg);
+      localStorage.setItem('@userToken', msg.Authorization);
       const defaultLoginSuccessMessage = intl.formatMessage({
         id: 'pages.login.success',
         defaultMessage: '登录成功！',
@@ -94,21 +87,21 @@ const Login: React.FC = () => {
       <div className={styles.content}>
         <LoginForm
           logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
-          subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
+          title="ENADE"
+          subTitle={''}
           initialValues={{
             autoLogin: true,
           }}
-          actions={[
-            <FormattedMessage
-              key="loginWith"
-              id="pages.login.loginWith"
-              defaultMessage="其他登录方式"
-            />,
-            <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-            <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
-            <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
-          ]}
+          // actions={[
+          //   <FormattedMessage
+          //     key="loginWith"
+          //     id="pages.login.loginWith"
+          //     defaultMessage="其他登录方式"
+          //   />,
+          //   <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
+          //   <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
+          //   <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+          // ]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
           }}
@@ -121,13 +114,13 @@ const Login: React.FC = () => {
                 defaultMessage: '账户密码登录',
               })}
             />
-            <Tabs.TabPane
-              key="mobile"
-              tab={intl.formatMessage({
-                id: 'pages.login.phoneLogin.tab',
-                defaultMessage: '手机号登录',
-              })}
-            />
+            {/*<Tabs.TabPane*/}
+            {/*  key="mobile"*/}
+            {/*  tab={intl.formatMessage({*/}
+            {/*    id: 'pages.login.phoneLogin.tab',*/}
+            {/*    defaultMessage: '手机号登录',*/}
+            {/*  })}*/}
+            {/*/>*/}
           </Tabs>
 
           {status === 'error' && loginType === 'account' && (
@@ -141,7 +134,7 @@ const Login: React.FC = () => {
           {type === 'account' && (
             <>
               <ProFormText
-                name="username"
+                name="login"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
@@ -287,7 +280,7 @@ const Login: React.FC = () => {
           </div>
         </LoginForm>
       </div>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 };
