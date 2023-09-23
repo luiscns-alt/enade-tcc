@@ -13,36 +13,9 @@ import { getAnswer, getByIdAnswer } from '@/services/ant-design-pro/api';
 import ProTable from '@ant-design/pro-table';
 import CreateForm from './components/createForm';
 
-const handleDocument = async (intl: any, testamentId: String) => {};
-
-const handleCertificate = async (intl: any, testamentId: String) => {};
-
 const handleRemove = async (intl: any, selectedRows) => {};
 
-const handleAdd = async (intl: any, fields) => {
-  // const hide = message.loading(intl.formatMessage({ id: 'app.waiting' }));
-  // try {
-  //   const result = await WebApi.Countries.apiV1CountriesCountryIdStatesStateIdCitiesPost(
-  //     countryId,
-  //     stateId,
-  //     fields,
-  //   );
-  //   console.log('handleAdd', result);
-  //   hide();
-  //   if (result.status == 200) {
-  //     message.success(intl.formatMessage({ id: 'app.created.success' }));
-  //   } else {
-  //     message.error(intl.formatMessage({ id: 'app.created.fail' }) + ' - ' + result.data.message);
-  //     return false;
-  //   }
-  //   return true;
-  // } catch (error) {
-  //   console.error(error);
-  //   hide();
-  //   message.error(intl.formatMessage({ id: 'app.created.fail' }));
-  //   return false;
-  // }
-};
+const handleAdd = async (intl: any, fields) => {};
 
 const TableAnswers: React.FC = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
@@ -148,7 +121,7 @@ const TableAnswers: React.FC = () => {
             }
           }
 
-          const result = await getAnswer();
+          // const result = await getAnswer();
 
           console.log('tableRequest', result);
 

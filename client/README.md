@@ -1,57 +1,71 @@
-# Ant Design Pro
+# **Ant Design Pro**
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+Este projeto foi inicializado com o **[Ant Design Pro](https://pro.ant.design/)**. A seguir, apresentamos um guia rápido
+sobre como utilizá-lo.
 
-## Environment Prepare
+## **Preparação do Ambiente**
 
-Install `node_modules`:
+Instale os **`node_modules`**:
 
-```bash
+```shell
 npm install
 ```
 
-or
+ou
 
-```bash
+```shell
 yarn
 ```
 
-## Provided Scripts
+## ### **2. Configuração da BaseURL no Arquivo api.ts**
 
-Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
+Localize a pasta **`client/src/services/ant-design-pro`** e dentro dela, você encontrará o arquivo **`endpoints.ts`**.
+Configure a  **`baseURL`** conforme o localhost de sua rede.
+````shell
+const BASE_URL: string = 'http://localhost:3000';
+````
 
-Scripts provided in `package.json`. It's safe to modify or add additional script:
+## **Scripts Fornecidos**
 
-### Start project
+O Ant Design Pro fornece alguns scripts úteis para ajudá-lo a iniciar e construir rapidamente seu projeto web, verificar
+o estilo do código e testá-lo.
 
-```bash
+Os scripts estão disponíveis no arquivo **`package.json`**. Você pode modificar ou adicionar mais scripts conforme
+necessário:
+
+### **Iniciar o projeto**
+
+```shell
 npm start
+ou
+npm run start:dev
 ```
 
-### Build project
+### **Construir o projeto**
 
-```bash
+```shell
 npm run build
 ```
 
-### Check code style
+### **Verificar estilo do código**
 
-```bash
+```shell
 npm run lint
 ```
 
-You can also use script to auto fix some lint error:
+Você também pode usar um script para corrigir automaticamente alguns erros de lint:
 
-```bash
+```shell
 npm run lint:fix
 ```
 
-### Test code
+### **Testar o código**
 
-```bash
+```shell
 npm test
 ```
 
-## More
+## **Mais informações**
 
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
+Para uma documentação completa, visite nosso **[site oficial](https://pro.ant.design/)**. Qualquer feedback é bem-vindo
+em nosso **[GitHub](https://github.com/ant-design/ant-design-pro)**.

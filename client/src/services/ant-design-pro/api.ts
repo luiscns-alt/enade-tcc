@@ -2,8 +2,11 @@
 /* eslint-disable */
 import {
   ANSWER_ENDPOINT,
+  AUTH_LOGIN_ENDPOINT,
+  CATEGORIES_ENDPOINT,
   QUESTION_ENDPOINT,
   QUIZ_ENDPOINT,
+  USER_ME_ENDPOINT,
 } from '@/services/ant-design-pro/endpoints';
 import { request } from '@umijs/max';
 import { Params } from 'react-router';
@@ -18,7 +21,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('http://localhost:3000/auth/login', {
+  return request<API.LoginResult>(AUTH_LOGIN_ENDPOINT, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +38,7 @@ export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export async function getUser(options?: { [key: string]: any }) {
   const token = getToken();
   console.log(getToken());
-  return request<API.CurrentUser>('http://localhost:3000/user/me', {
+  return request<API.CurrentUser>(USER_ME_ENDPOINT, {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),
@@ -76,7 +79,7 @@ export async function getQuizId(body: Readonly<Params<string>>, options?: { [key
 
 export async function createQuiz(body: API.LoginParams, options?: { [key: string]: any }) {
   const token = getToken();
-  return request('http://localhost:3000/quiz', {
+  return request(`${QUIZ_ENDPOINT}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -96,9 +99,9 @@ export async function deleteQuestions(options?: { [key: string]: any }) {
   });
 }
 
-export async function updateQuiz(body: API.LoginParams, options?: { [key: string]: any }) {
+export async function updateQuiz(body: API.QuizDTO, options?: { [key: string]: any }) {
   const token = getToken();
-  return request(`http://localhost:3000/quiz/${body.id}`, {
+  return request(`${QUIZ_ENDPOINT}/${body.id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -140,7 +143,7 @@ export async function createOption(
   options?: { [key: string]: any },
 ) {
   const token = getToken();
-  return request('http://localhost:3000/answer', {
+  return request(`${ANSWER_ENDPOINT}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -175,7 +178,7 @@ export async function getAnswer(options?: { [key: string]: any }) {
 
 export async function getCategory(options?: { [key: string]: any }) {
   const token = getToken();
-  return request<API.CategoryList>('http://localhost:3000/categories', {
+  return request<API.CategoryList>(`${CATEGORIES_ENDPOINT}`, {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),
