@@ -79,7 +79,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Luis\",\r\n  \"surname\": \"Carlos\",\r\n  \"login\": \"luis_carlos\",\r\n  \"password\": \"string\"\r\n}",
+							"raw": "{\r\n    //   \"name\": \"Luis\",\r\n    //   \"surname\": \"Carlos\",\r\n    //   \"login\": \"luis_carlos\",\r\n    //   \"password\": \"string\"\r\n    \"name\": \"Roberto\",\r\n    \"surname\": \"Fernandez\",\r\n    \"login\": \"rober_fern2023\",\r\n    \"password\": \"JkL9v8z0Rp\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -116,10 +116,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/auth/login",
+							"raw": "http://10.0.0.181:3000/auth/login",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"10",
+								"0",
+								"0",
+								"181"
 							],
 							"port": "3000",
 							"path": [
@@ -181,7 +184,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"CIÊNCIA DA COMPUTAÇÃO\"\r\n}",
+							"raw": "// {\r\n//   \"name\": \"CIÊNCIA DA COMPUTAÇÃO\"\r\n// }\r\n{\r\n  \"name\": \"BACHARELADO EM SISTEMAS DE INFORMAÇÃO\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -209,9 +212,21 @@
 			"item": [
 				{
 					"name": "GET ALL",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://localhost:3000/quiz",
 							"protocol": "http",
@@ -221,6 +236,28 @@
 							"port": "3000",
 							"path": [
 								"quiz"
+							],
+							"query": [
+								{
+									"key": "token%20",
+									"value": "%20123",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "order: {\"title\":\"ascend\"}",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "order",
+									"value": "%7B%22title%22:%22asc%22%7D",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -232,7 +269,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/quiz/3f995fc3-0a84-4427-b094-22882271236f",
+							"raw": "http://localhost:3000/quiz/c6a71446-c6a2-45dc-b7b1-da60c3c3403b",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -240,7 +277,7 @@
 							"port": "3000",
 							"path": [
 								"quiz",
-								"3f995fc3-0a84-4427-b094-22882271236f"
+								"c6a71446-c6a2-45dc-b7b1-da60c3c3403b"
 							]
 						}
 					},
@@ -267,13 +304,36 @@
 					"response": []
 				},
 				{
+					"name": "DELETE MULTI",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ids\": [\"6f0f2a89-b46b-4c9f-ba83-8a8b86318bf3\"]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/quiz",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"quiz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "CREATE",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"Questões de Ciência da computação (licenciatura e bacharelado)\",\r\n  \"description\": \"ENADE 2021 - CONHECIMENTO ESPECÍFICO\",\r\n  \"published\": true,\r\n  \"categoryId\": \"975db9a9-30a9-48ce-a08b-288006e8dbdd\"\r\n}",
+							"raw": "{\r\n  \"title\": \"Desafio de Programação Básica\",\r\n  \"description\": \"Teste seus conhecimentos em programação com este quiz abrangente, abordando conceitos fundamentais, linguagens populares e práticas comuns no mundo da codificação.\",\r\n  \"published\": true,\r\n  \"categoryId\": \"a20d0888-f8c7-43a9-ab09-b2061fb479d1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -301,7 +361,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Questões de Ciência da computação (licenciatura e bacharelado)\",\r\n    \"description\": \"ENADE 2021 - CONHECIMENTO ESPECÍFICO\",\r\n    \"published\": true,\r\n    \"userId\": \"713218c6-5174-4f5a-b365-386b447f89fd\",\r\n    \"categoryId\": \"975db9a9-30a9-48ce-a08b-288006e8dbdd\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Questões de Ciência da computação (licenciatura e bacharelado)\",\r\n    \"description\": \"ENADE 2021 - CONHECIMENTO ESPECÍFICO\",\r\n    \"published\": true,\r\n    \"categoryId\": \"a20d0888-f8c7-43a9-ab09-b2061fb479d1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -309,7 +369,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/quiz/3f995fc3-0a84-4427-b094-22882271236f",
+							"raw": "http://localhost:3000/quiz/08f57552-e005-4972-9a7a-fd788d965e92",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -317,7 +377,7 @@
 							"port": "3000",
 							"path": [
 								"quiz",
-								"3f995fc3-0a84-4427-b094-22882271236f"
+								"08f57552-e005-4972-9a7a-fd788d965e92"
 							]
 						}
 					},
@@ -353,15 +413,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/question/126ddeb4-0af6-446b-b538-1f5ad6a9d791",
-							"protocol": "http",
+							"raw": "user-gamificationquestion/cf682a81-6a6f-445c-841b-ed49a6f408a3",
 							"host": [
-								"localhost"
+								"user-gamificationquestion"
 							],
-							"port": "3000",
 							"path": [
-								"question",
-								"126ddeb4-0af6-446b-b538-1f5ad6a9d791"
+								"cf682a81-6a6f-445c-841b-ed49a6f408a3"
 							]
 						}
 					},
@@ -373,7 +430,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/question/61b1371f-d1eb-4bc1-a5fe-5edce4a31f63",
+							"raw": "http://localhost:3000/question/b3d852eb-7158-4616-a087-53a8c6c38c6c",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -381,7 +438,7 @@
 							"port": "3000",
 							"path": [
 								"question",
-								"61b1371f-d1eb-4bc1-a5fe-5edce4a31f63"
+								"b3d852eb-7158-4616-a087-53a8c6c38c6c"
 							]
 						}
 					},
@@ -394,7 +451,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quizId\": \"3f995fc3-0a84-4427-b094-22882271236f\",\r\n    \"title\": \"Quando um computador é multiprogramado, ele geralmente tem múltiplos processos ou threads que competem pela CPU ao mesmo tempo. Essa situação ocorre sempre que dois ou mais processos estão simultaneamente no estado pronto. Se somente uma CPU se encontrar disponível, deverá ser feita uma escolha de qual processo executar em seguida. A parte do sistema operacional que faz a escolha é chamada de escalonador, e o algoritmo que ele usa é o algoritmo de escalonamento.\",\r\n    \"type\": \"OBJECTIVE\",\r\n    \"image\": null\r\n}",
+							"raw": "{\r\n    \"quizId\": \"c6a71446-c6a2-45dc-b7b1-da60c3c3403b\",\r\n    \"title\": \"Qual destes não é um tipo primitivo em Java?\",\r\n    \"type\": \"OBJECTIVE\",\r\n    \"image\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -473,13 +530,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{API_URL}}/answer/5581d0c1-0f83-48c3-9115-83d5adbc71f3",
+							"raw": "{{API_URL}}/answer/48320752-4c5a-4246-880e-0ed750ed439c",
 							"host": [
 								"{{API_URL}}"
 							],
 							"path": [
 								"answer",
-								"5581d0c1-0f83-48c3-9115-83d5adbc71f3"
+								"48320752-4c5a-4246-880e-0ed750ed439c"
 							]
 						}
 					},
@@ -510,7 +567,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"text\": \"A) A mudança nos requisitos do sistema é algo que gera atraso no desenvolvimento, por isso é aconselhável evitá-la.\",\r\n        \"isCorrect\": false,\r\n        \"questionId\": \"126ddeb4-0af6-446b-b538-1f5ad6a9d791\"\r\n    },\r\n    {\r\n        \"text\": \"B) O ciclo de desenvolvimento possui duração fixa, porém, durante o desenvolvimento, poderá ser alterado no caso de sistemas críticos.\",\r\n        \"isCorrect\": false,\r\n        \"questionId\": \"126ddeb4-0af6-446b-b538-1f5ad6a9d791\"\r\n    },\r\n    {\r\n        \"text\": \"C) O teste de usabilidade deve ser realizado no último ciclo, pois será o momento em que o usuário consegue testar todas as funcionalidades.\",\r\n        \"isCorrect\": false,\r\n        \"questionId\": \"126ddeb4-0af6-446b-b538-1f5ad6a9d791\"\r\n    },\r\n    {\r\n        \"text\": \"D) O subsistema gerado pela implementação dos requisitos no fim de uma iteração poderá ser utilizado pelo cliente como protótipo.\",\r\n        \"isCorrect\": false,\r\n        \"questionId\": \"126ddeb4-0af6-446b-b538-1f5ad6a9d791\"\r\n    },\r\n    {\r\n        \"text\": \"E) O documento de teste de usabilidade deve contemplar os critérios de acessibilidade para atender a todos os usuários do sistema.\",\r\n        \"isCorrect\": true,\r\n        \"questionId\": \"126ddeb4-0af6-446b-b538-1f5ad6a9d791\"\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n        \"text\": \"A) int\",\r\n        \"isCorrect\": false,\r\n        \"questionId\": \"31e57132-8b76-4cf0-8035-095634e48f42\"\r\n    },\r\n    {\r\n        \"text\": \"B) float\",\r\n        \"isCorrect\": false,\r\n        \"questionId\": \"31e57132-8b76-4cf0-8035-095634e48f42\"\r\n    },\r\n    {\r\n        \"text\": \"C) char\",\r\n        \"isCorrect\": false,\r\n        \"questionId\": \"31e57132-8b76-4cf0-8035-095634e48f42\"\r\n    },\r\n    {\r\n        \"text\": \"D) string\",\r\n        \"isCorrect\": true,\r\n        \"questionId\": \"31e57132-8b76-4cf0-8035-095634e48f42\"\r\n    },\r\n    {\r\n        \"text\": \"E) boolean\",\r\n        \"isCorrect\": false,\r\n        \"questionId\": \"31e57132-8b76-4cf0-8035-095634e48f42\"\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -551,6 +608,95 @@
 							"path": [
 								"answer",
 								"5581d0c1-0f83-48c3-9115-83d5adbc71f3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User-gamification",
+			"item": [
+				{
+					"name": "CREATE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"f03342c3-52af-4351-910b-b2f466934567\",\r\n    \"points\": 100,\r\n    \"level\": 2,\r\n    \"dailyChallengesCompleted\": 3,\r\n    \"currentStreak\": 4,\r\n    \"rewardPoints\": 50,\r\n    \"lastQuizTaken\": \"2023-09-14T00:00:00Z\",\r\n    \"quizzesCompleted\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user-gamification",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user-gamification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"f03342c3-52af-4351-910b-b2f466934567\",\r\n    \"points\": 100,\r\n    \"level\": 2,\r\n    \"dailyChallengesCompleted\": 3,\r\n    \"currentStreak\": 4,\r\n    \"rewardPoints\": 50,\r\n    \"lastQuizTaken\": \"2023-09-14T00:00:00Z\",\r\n    \"quizzesCompleted\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user-gamification/f03342c3-52af-4351-910b-b2f466934567",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user-gamification",
+								"f03342c3-52af-4351-910b-b2f466934567"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BY ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"f03342c3-52af-4351-910b-b2f466934567\",\r\n    \"points\": 100,\r\n    \"level\": 2,\r\n    \"dailyChallengesCompleted\": 3,\r\n    \"currentStreak\": 4,\r\n    \"rewardPoints\": 50,\r\n    \"lastQuizTaken\": \"2023-09-14T00:00:00Z\",\r\n    \"quizzesCompleted\": 5,\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/user-gamification/f03342c3-52af-4351-910b-b2f466934567",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user-gamification",
+								"f03342c3-52af-4351-910b-b2f466934567"
 							]
 						}
 					},
