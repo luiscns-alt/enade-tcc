@@ -6,6 +6,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { QuestionModule } from './question/question.module';
 import { AnswerModule } from './answer/answer.module';
 import { UserGamificationModule } from './user-gamification/user-gamification.module';
+import { QuizResponseModule } from './quiz-response/quiz-response.module';
+import { QuestionResponseModule } from './question-response/question-response.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { UserGamificationModule } from './user-gamification/user-gamification.mo
     QuestionModule,
     AnswerModule,
     UserGamificationModule,
+    QuizResponseModule,
+    QuestionResponseModule,
   ],
   controllers: [],
   providers: [],
