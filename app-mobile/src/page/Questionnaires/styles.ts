@@ -39,3 +39,9 @@ export const Subject = styled.Text`
 
   margin-top: 2px;
 `;
+
+export const LoadContainer = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`;

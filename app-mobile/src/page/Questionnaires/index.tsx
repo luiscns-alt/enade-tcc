@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Animated } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BackButton } from '../../components/BackButton';
-import { getToken } from '../../contexts/auth';
+import { useAuth } from '../../contexts/auth';
 import { questionsDTO } from '../../dtos/questionsDTO';
-import { api } from '../../services/api';
 import {
   ContainerModal,
   ContainerOptions,
@@ -31,8 +30,11 @@ import {
   ViewQuestion,
   ViewText,
 } from '../Quiz/styles';
-import { Container, Content, Divider, Header } from './styles';
+import { Container, Content, Divider, Header, LoadContainer } from './styles';
 import { useFetchQuiz } from '../../hooks/useFetchQuiz';
+import { QuestionResponse } from '../../types';
+import useSubmitAnswers from '../../hooks/useSubmitAnswers';
+import { useTheme } from 'styled-components';
 
 interface Params {
   quiz: questionsDTO;
@@ -40,9 +42,14 @@ interface Params {
 
 export function Questionnaires() {
   const navigation = useNavigation();
+  const theme = useTheme();
+  const { getMe } = useAuth();
   const { quiz } = useRoute().params as Params;
+  const { loading, questions, error, fetchQuiz } = useFetchQuiz(quiz.id);
+  const { submitAnswers } = useSubmitAnswers();
+
   const [student, setStudent] = useState({});
-  const [allQuestions, setAllQuestions] = useState([]);
+  const [allQuestions, setAllQuestions] = useState<QuestionResponse[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentOptionSelected, setCurrentOptionSelected] = useState(null);
   const [correctOption, setCorrectOption] = useState(null);
@@ -52,49 +59,29 @@ export function Questionnaires() {
   const [showScoreModal, setShowScoreModal] = useState(false);
   const [progress, setProgress] = useState(new Animated.Value(0));
 
-  const { loading, questions, error, fetchQuiz } = useFetchQuiz(quiz.id);
-
   useEffect(() => {
     fetchQuiz();
   }, [fetchQuiz]);
 
-  const handleBack = () => navigation.goBack();
-
-  const fetchDataFromAPI = async (endpoint: string) => {
-    const token = await getToken();
-    const { data } = await api.get(endpoint, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  const handleBack = async () => {
+    const createQuizResponse = {
+      userId: getMe.id,
+      quizId: quiz.id,
+      questionsResponse: allQuestions,
+    };
+    submitAnswers(createQuizResponse).then((response) => {
+      navigation.goBack();
     });
-    return data;
-  };
-
-  const createStudent = async (name: string, email: string) => {
-    try {
-      const response = await api.post(`/student`, { name, email });
-      setStudent(response.data.id);
-      console.log('Successfully created student', response.data);
-    } catch (error) {
-      console.log('Error creating student', error);
-    }
-  };
-
-  const postAnswer = async (option: any) => {
-    const question = questions?.question[currentQuestionIndex];
-    try {
-      await api.post(`/answer`, {
-        studentId: student,
-        question,
-        answer: option.text,
-        isCorrect: option.isCorrect,
-      });
-    } catch (error) {
-      console.log('Error posting answer', error);
-    }
   };
 
   const validateAnswer = (selectedOption: any) => {
+    setAllQuestions((prevData) => [
+      ...prevData,
+      {
+        selectedAnswerId: selectedOption.id,
+        questionId: selectedOption.questionId,
+      },
+    ]);
     setCurrentOptionSelected(selectedOption);
     setIsOptionsDisabled(true);
     if (selectedOption.isCorrect) {
@@ -252,7 +239,11 @@ export function Questionnaires() {
   }
 
   if (loading) {
-    return <ViewText>Carregando...</ViewText>;
+    return (
+      <LoadContainer>
+        <ActivityIndicator color={theme.colors.primary} size='large' />
+      </LoadContainer>
+    );
   }
 
   if (error) {

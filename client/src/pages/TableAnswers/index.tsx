@@ -1,15 +1,14 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
-import { Button } from 'antd';
+import { PageContainer } from '@ant-design/pro-layout';
 import 'antd/dist/antd.css';
 import React, { useRef, useState } from 'react';
-import { history, useIntl, useModel } from 'umi';
+import { useIntl, useModel } from 'umi';
 
 import type { ProFormInstance } from '@ant-design/pro-form';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import type { TableListPagination } from './data';
 
-import { getAnswer, getByIdAnswer } from '@/services/ant-design-pro/api';
+import { getAnswer } from '@/services/ant-design-pro/api';
+import { FormattedMessage } from '@@/exports';
 import ProTable from '@ant-design/pro-table';
 import CreateForm from './components/createForm';
 
@@ -24,7 +23,6 @@ const TableAnswers: React.FC = () => {
   const createFormRef = useRef<ProFormInstance>();
   const [searchTerm, handleSearchTerm] = useState<string>('');
   const [selectedRowsState, setSelectedRows] = useState([]);
-
   const intl = useIntl();
   const { initialState } = useModel('@@initialState');
 
@@ -39,45 +37,46 @@ const TableAnswers: React.FC = () => {
       sorter: true,
       search: false,
       copyable: true,
-      width: '20%',
+      width: '25%',
     },
     {
       title: 'Nome',
-      dataIndex: 'name',
+      dataIndex: 'user',
       sorter: true,
       defaultSortOrder: 'ascend',
-      width: '20%',
+      width: '35%',
+      render: (user: any) => [<div key={'user'}>{user.name}</div>],
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
+      title: 'Título da Questionário',
+      dataIndex: 'quiz',
       sorter: true,
-      width: '30%',
+      width: '35%',
+      render: (quiz: any) => [<div key={'quiz'}>{quiz.title}</div>],
     },
     {
       title: 'Ações',
       dataIndex: 'option',
       valueType: 'option',
-      width: '20%',
+      width: '5%',
       render: (_, record) => [
         <a
           key="config"
-          onClick={async () => {
-            const result = await getByIdAnswer(record.id);
-            setCurrentRow(result.answers[0]);
+          onClick={() => {
             handleModalVisible(true);
+            setCurrentRow(record);
           }}
         >
-          {'Ir'}
+          <FormattedMessage id="app.generic.view-more" defaultMessage="Ver mais" />
         </a>,
       ],
     },
   ];
 
   return (
-    <PageContainer content={intl.formatMessage({ id: 'app.testament.message' })}>
-      <ProTable<TableListPagination>
-        headerTitle={'Lista dos Questionarios'}
+    <PageContainer>
+      <ProTable<API.QuizDataApiResponse, TableListPagination>
+        headerTitle={'Lista dos Questionarios Respondidos'}
         actionRef={actionRef}
         rowKey="id"
         pagination={{
@@ -94,19 +93,6 @@ const TableAnswers: React.FC = () => {
               actionRef.current?.reloadAndRest?.();
             },
           },
-          actions: [
-            <Button
-              type="primary"
-              key="primary"
-              onClick={async () => {
-                history.push({
-                  pathname: '/questionnaires/new',
-                });
-              }}
-            >
-              <PlusOutlined /> Novo
-            </Button>,
-          ],
         }}
         search={false}
         request={async (params, sort) => {
@@ -121,14 +107,14 @@ const TableAnswers: React.FC = () => {
             }
           }
 
-          // const result = await getAnswer();
+          const result = await getAnswer();
 
           console.log('tableRequest', result);
 
           return {
-            data: result.items,
-            // success: result.data.isSuccess,
-            total: result.meta.totalItems,
+            data: result.data,
+            success: result.success,
+            total: result.total,
           };
         }}
         columns={columns}
@@ -138,31 +124,31 @@ const TableAnswers: React.FC = () => {
           },
         }}
       />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              {intl.formatMessage({ id: 'app.generic.selected' })}
-              <a
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                {selectedRowsState.length}
-              </a>{' '}
-              {intl.formatMessage({ id: 'app.generic.item' })} &nbsp;&nbsp;
-            </div>
-          }
-        >
-          <DeleteConfirm
-            onConfirm={async () => {
-              await handleRemove(intl, selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          />
-        </FooterToolbar>
-      )}
+      {/*{selectedRowsState?.length > 0 && (*/}
+      {/*  <FooterToolbar*/}
+      {/*    extra={*/}
+      {/*      <div>*/}
+      {/*        {intl.formatMessage({ id: 'app.generic.selected' })}*/}
+      {/*        <a*/}
+      {/*          style={{*/}
+      {/*            fontWeight: 600,*/}
+      {/*          }}*/}
+      {/*        >*/}
+      {/*          {selectedRowsState.length}*/}
+      {/*        </a>{' '}*/}
+      {/*        {intl.formatMessage({ id: 'app.generic.item' })} &nbsp;&nbsp;*/}
+      {/*      </div>*/}
+      {/*    }*/}
+      {/*  >*/}
+      {/*    <DeleteConfirm*/}
+      {/*      onConfirm={async () => {*/}
+      {/*        await handleRemove(intl, selectedRowsState);*/}
+      {/*        setSelectedRows([]);*/}
+      {/*        actionRef.current?.reloadAndRest?.();*/}
+      {/*      }}*/}
+      {/*    />*/}
+      {/*  </FooterToolbar>*/}
+      {/*)}*/}
 
       <CreateForm
         initialValues={currentRow}

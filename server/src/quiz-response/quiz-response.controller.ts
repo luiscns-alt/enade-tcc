@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { QuizResponseService } from './quiz-response.service';
 import { CreateQuizResponseDto } from './dto/create-quiz-response.dto';
@@ -16,18 +18,30 @@ export class QuizResponseController {
   constructor(private readonly quizResponseService: QuizResponseService) {}
 
   @Post()
-  create(@Body() createQuizResponseDto: CreateQuizResponseDto) {
-    return this.quizResponseService.create(createQuizResponseDto);
+  async create(@Body() createQuizResponseDto: CreateQuizResponseDto) {
+    const result = await this.quizResponseService.create(createQuizResponseDto);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+    return result;
   }
 
   @Get()
-  findAll() {
-    return this.quizResponseService.findAll();
+  async findAll() {
+    const result = await this.quizResponseService.findAll();
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+    return result;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.quizResponseService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const result = await this.quizResponseService.findOne(id);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+    return result;
   }
 
   @Patch(':id')
@@ -41,5 +55,14 @@ export class QuizResponseController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.quizResponseService.remove(+id);
+  }
+
+  @Delete()
+  async removes(@Body('ids') ids: string[]) {
+    const result = await this.quizResponseService.removes(ids);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+    return result;
   }
 }

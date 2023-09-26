@@ -17,6 +17,7 @@ export default {
   'app.generic.delete': 'Excluir',
   'app.generic.new': 'Novo',
   'app.generic.enable': 'Habilitado',
+  'app.generic.view-more': 'Ver mais',
 
   'app.generic.next': 'Próximo',
   'app.generic.previous': 'Anterior',
@@ -44,5 +45,5 @@ export default {
   'app.generic.question': 'Questão',
 
   'app.generic.step.quiz': 'Questionário',
-  'app.generic.step.question': 'Questão'
+  'app.generic.step.question': 'Questão',
 };

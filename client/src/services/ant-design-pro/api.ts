@@ -6,6 +6,7 @@ import {
   CATEGORIES_ENDPOINT,
   QUESTION_ENDPOINT,
   QUIZ_ENDPOINT,
+  QUIZ_RESPONSE_ENDPOINT,
   USER_ME_ENDPOINT,
 } from '@/services/ant-design-pro/endpoints';
 import { request } from '@umijs/max';
@@ -167,18 +168,18 @@ export async function updateOption(body: API.AnswerDTO, options?: { [key: string
   });
 }
 
-export async function getAnswer(options?: { [key: string]: any }) {
+export async function getCategory(options?: { [key: string]: any }) {
   const token = getToken();
-  return request<API.NoticeIconList>('http://localhost:3000/student', {
+  return request<API.CategoryList>(`${CATEGORIES_ENDPOINT}`, {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),
   });
 }
 
-export async function getCategory(options?: { [key: string]: any }) {
+export async function getAnswer(options?: { [key: string]: any }) {
   const token = getToken();
-  return request<API.CategoryList>(`${CATEGORIES_ENDPOINT}`, {
+  return request<API.QuizDataApiResponse>(QUIZ_RESPONSE_ENDPOINT, {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),

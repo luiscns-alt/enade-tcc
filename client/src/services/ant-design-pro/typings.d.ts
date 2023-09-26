@@ -159,7 +159,7 @@ declare namespace API {
     updatedAt: Timestamp;
     userId: UUID | null;
     categoryId: UUID;
-    question: QuestionDTO[];
+    question?: QuestionDTO[];
   }
 
   interface DeleteApiResponse {
@@ -238,5 +238,30 @@ declare namespace API {
     isCorrect_3?: boolean;
     answer_4?: string;
     isCorrect_4?: boolean;
+  }
+
+  interface QuestionsResponse {
+    id: string;
+    quizResponseId: string;
+    questionId: string;
+    selectedAnswerId: string;
+    discursiveAnswer: string | null;
+  }
+
+  interface QuizData {
+    id: string;
+    userId: string;
+    quizId: string;
+    answeredAt: string;
+    user: User;
+    quiz: QuizDTO;
+    questionsResponse: QuestionsResponse[];
+  }
+
+  interface QuizDataApiResponse {
+    data?: QuizData[];
+    message?: string;
+    success?: boolean;
+    total: number;
   }
 }

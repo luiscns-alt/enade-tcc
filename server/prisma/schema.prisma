@@ -137,7 +137,7 @@ model QuizResponse {
 
 model QuestionResponse {
   id               String       @id @default(uuid())
-  quizResponse     QuizResponse @relation(fields: [quizResponseId], references: [id])
+  quizResponse     QuizResponse @relation(fields: [quizResponseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   quizResponseId   String
   question         Question     @relation(fields: [questionId], references: [id])
   questionId       String

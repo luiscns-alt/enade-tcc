@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../services/api';
+import { UserData } from '../types';
 
 const TOKEN_KEY = '@RNAuth:token';
 const USER_KEY = '@RNAuth:user';
@@ -26,6 +27,7 @@ interface User {
 interface AuthContextData {
   signed: boolean;
   user: User | null;
+  getMe: UserData;
   loading: boolean;
 
   signIn(data: any): Promise<void>;
@@ -44,6 +46,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // const { user, signIn, signOut, registerUser, loading } = useAuth();
   const [user, setUser] = useState<any>(null);
+  const [getMe, setGetMe] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -65,6 +68,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response = await api.post(`/auth/login`, data);
       const token = response.data.Authorization;
+      setGetMe(response.data.data);
       setUser(token);
       await AsyncStorage.setItem(USER_KEY, JSON.stringify(token));
       await AsyncStorage.setItem(TOKEN_KEY, token);
@@ -92,25 +96,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }
 
-  async function listQuiz() {
-    const token = await AsyncStorage.getItem(TOKEN_KEY);
-    try {
-      const response = await api.get(`/quiz`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data.items;
-    } catch (error) {
-      console.error('Error fetching quiz list:', error);
-    }
-  }
-
   return (
     <AuthContext.Provider
       value={{
         signed: Boolean(user),
         user,
+        getMe,
         loading,
         signIn,
         signOut,
