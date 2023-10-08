@@ -9,7 +9,12 @@ import {
   HttpException,
   HttpStatus,
   Query,
+  UseGuards,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
+import { ApiSecurity } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { QuizService } from './quiz.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
@@ -18,6 +23,9 @@ import { UpdateQuizDto } from './dto/update-quiz.dto';
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   async create(@Body() createQuizDto: CreateQuizDto) {
     const result = await this.quizService.create(createQuizDto);
@@ -27,6 +35,9 @@ export class QuizController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   async findAll(
     @Query('title') title?: string,
@@ -39,11 +50,17 @@ export class QuizController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('drafts')
   findDrafts() {
     return this.quizService.findDrafts();
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const result = await this.quizService.findOne(id);
@@ -53,6 +70,9 @@ export class QuizController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
     const result = await this.quizService.update(id, updateQuizDto);
@@ -62,6 +82,9 @@ export class QuizController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const result = await this.quizService.remove(id);
@@ -71,6 +94,9 @@ export class QuizController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Delete()
   async removes(@Body('ids') ids: string[]) {
     const result = await this.quizService.removes(ids);

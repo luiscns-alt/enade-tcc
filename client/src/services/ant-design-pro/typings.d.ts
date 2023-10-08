@@ -144,6 +144,18 @@ declare namespace API {
   type UUID = string;
   type Timestamp = string;
 
+  interface User {
+    id: string;
+    login: string;
+    password: string;
+    name: string;
+    surname: string;
+    role: string;
+    createdAt: string;
+    updatedAt: string;
+    gamificationId: string | null;
+  }
+
   interface TableListPagination {
     total: number;
     pageSize: number;
@@ -246,6 +258,7 @@ declare namespace API {
     questionId: string;
     selectedAnswerId: string;
     discursiveAnswer: string | null;
+    question?: QuestionDTO;
   }
 
   interface QuizData {

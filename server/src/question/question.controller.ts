@@ -8,7 +8,12 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  UseGuards,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
+import { ApiSecurity } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
@@ -17,6 +22,9 @@ import { UpdateQuestionDto } from './dto/update-question.dto';
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   async create(@Body() createQuestionDto: CreateQuestionDto) {
     const result = await this.questionService.create(createQuestionDto);
@@ -26,6 +34,9 @@ export class QuestionController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   async findAll() {
     const result = await this.questionService.findAll();
@@ -35,6 +46,9 @@ export class QuestionController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const result = await this.questionService.findOne(id);
@@ -44,6 +58,9 @@ export class QuestionController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -56,6 +73,9 @@ export class QuestionController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const result = await this.questionService.remove(id);
@@ -65,6 +85,9 @@ export class QuestionController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Delete()
   async removes(@Body('ids') ids: string[]) {
     const result = await this.questionService.removes(ids);

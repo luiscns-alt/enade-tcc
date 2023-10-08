@@ -7,6 +7,7 @@ import {
   QUESTION_ENDPOINT,
   QUIZ_ENDPOINT,
   QUIZ_RESPONSE_ENDPOINT,
+  QUIZ_RESPONSE_GET_ENDPOINT,
   USER_ME_ENDPOINT,
 } from '@/services/ant-design-pro/endpoints';
 import { request } from '@umijs/max';
@@ -186,15 +187,11 @@ export async function getAnswer(options?: { [key: string]: any }) {
   });
 }
 
-export async function getByIdAnswer(body: API.LoginParams, options?: { [key: string]: any }) {
-  console.log(body);
+export async function getQuizAnswer(quizId?: string, options?: { [key: string]: any }) {
   const token = getToken();
-  return request(`http://localhost:3000/student/${body}`, {
+  return request<API.QuizDataApiResponse>(`${QUIZ_RESPONSE_GET_ENDPOINT}/${quizId}`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
+    headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),
   });
 }

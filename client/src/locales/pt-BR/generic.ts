@@ -14,6 +14,7 @@ export default {
   'app.generic.actions': 'Ações',
   'app.generic.update': 'Alterar',
   'app.generic.edit': 'Editar',
+  'app.generic.go': 'Ir',
   'app.generic.delete': 'Excluir',
   'app.generic.new': 'Novo',
   'app.generic.enable': 'Habilitado',

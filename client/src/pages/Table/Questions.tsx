@@ -1,7 +1,7 @@
 import { clear } from '@/redux/slicer/Quiz';
 import { deleteQuestionnaires, getQuestionnaires } from '@/services/ant-design-pro/api';
 import { getIds } from '@/utils/functions';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { EditOutlined, FolderViewOutlined, PlusOutlined } from '@ant-design/icons';
 import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -80,7 +80,7 @@ const Questions: React.FC = () => {
       valueType: 'option',
       width: '20%',
       render: (_, record) => [
-        <Tooltip key="personal-data" title={t.formatMessage({ id: 'app.generic.edit' })}>
+        <Tooltip key="edit" title={t.formatMessage({ id: 'app.generic.edit' })}>
           <Button
             key="action"
             size="large"
@@ -94,6 +94,23 @@ const Questions: React.FC = () => {
           >
             <EditOutlined />
             {t.formatMessage({ id: 'app.generic.edit' })}
+          </Button>
+        </Tooltip>,
+        <Tooltip key="go" title={t.formatMessage({ id: 'app.generic.go' })}>
+          <Button
+            key="action"
+            size="large"
+            onClick={async () => {
+              await handleClearStore();
+              console.log(record);
+              history.push({
+                pathname: `/answers-questions/${record.id}`,
+                search: `?id=${record.id}`,
+              });
+            }}
+          >
+            <FolderViewOutlined />
+            {t.formatMessage({ id: 'app.generic.go' })}
           </Button>
         </Tooltip>,
       ],

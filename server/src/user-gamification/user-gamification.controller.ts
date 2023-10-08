@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   HttpException,
@@ -7,7 +8,11 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { ApiSecurity } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateUserGamificationDto } from './dto/create-user-gamification.dto';
 import { UserGamificationService } from './user-gamification.service';
 
@@ -17,6 +22,9 @@ export class UserGamificationController {
     private readonly userGamificationService: UserGamificationService,
   ) {}
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   async createUserGamification(@Body() data: CreateUserGamificationDto) {
     const result = await this.userGamificationService.createUserGamification(
@@ -28,6 +36,9 @@ export class UserGamificationController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':userId')
   async updateUserGamification(
     @Param('userId') userId: string,
@@ -43,6 +54,9 @@ export class UserGamificationController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get(':userId')
   async getUserGamification(@Param('userId') userId: string) {
     const result = await this.userGamificationService.getUserGamification(

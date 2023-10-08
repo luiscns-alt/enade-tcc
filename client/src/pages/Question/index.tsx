@@ -225,7 +225,7 @@ const Question: React.FC = () => {
             return {
               data: result.data?.question,
               success: result.success,
-              total: result.data?.question.length,
+              total: result.data?.question?.length,
             };
           }}
           columns={columns}
