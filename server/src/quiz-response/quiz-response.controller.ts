@@ -70,6 +70,18 @@ export class QuizResponseController {
     return result;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('user/:id')
+  async findUserOne(@Param('id') id: string) {
+    const result = await this.quizResponseService.findByUserId(id);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+    return result;
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

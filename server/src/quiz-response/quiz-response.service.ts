@@ -48,7 +48,7 @@ export class QuizResponseService {
   async findAll() {
     let status: QuizResponseStatus = {
       success: true,
-      message: ' QUIZ_RESPONSE_FIND_ALL_SUCCESS',
+      message: 'QUIZ_RESPONSE_FIND_ALL_SUCCESS',
     };
     try {
       status.data = await this.prisma.quizResponse.findMany({
@@ -115,6 +115,39 @@ export class QuizResponseService {
       status.data = await this.prisma.quizResponse.findMany({
         where: {
           quizId,
+        },
+        include: {
+          user: true,
+          quiz: true,
+          questionsResponse: {
+            include: {
+              question: {
+                include: {
+                  answers: true,
+                },
+              },
+            },
+          },
+        },
+      });
+    } catch (error) {
+      status = {
+        success: false,
+        message: error,
+      };
+    }
+    return status;
+  }
+
+  async findByUserId(userId: string) {
+    let status: QuizResponseStatus = {
+      success: true,
+      message: 'QUIZ_RESPONSE_FIND_BY_USER_ID_SUCCESS',
+    };
+    try {
+      status.data = await this.prisma.quizResponse.findMany({
+        where: {
+          userId,
         },
         include: {
           user: true,
