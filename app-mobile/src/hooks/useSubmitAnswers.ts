@@ -1,28 +1,20 @@
 import { useState } from 'react';
-import { getToken } from '../contexts/auth';
-import { api } from '../services/api';
+import { api } from '@services/api';
 import { API_ENDPOINTS } from '../util/constants';
-import { QuizResponse } from '../types';
+import { QuizResponse } from '../@types';
+import { getToken } from '@hooks/useAuth';
+import { CustomError } from '@src/@types/error';
 
 const useSubmitAnswers = () => {
-  const [error, setError] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const token = getToken(); // Assuming you have a getToken function available
+  const [error, setError] = useState<CustomError>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const submitAnswers = async (answers: QuizResponse) => {
     setLoading(true);
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+      await getToken();
 
-      const response = await api.post(
-        API_ENDPOINTS.QUIZ_RESPONSE,
-        answers,
-        config
-      );
+      const response = await api.post(API_ENDPOINTS.QUIZ_RESPONSE, answers);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -35,4 +27,4 @@ const useSubmitAnswers = () => {
   return { submitAnswers, error, loading };
 };
 
-export default useSubmitAnswers;
+export { useSubmitAnswers };

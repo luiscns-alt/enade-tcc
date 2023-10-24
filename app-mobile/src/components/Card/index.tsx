@@ -43,7 +43,7 @@ export function Card({ data, ...rest }) {
   return (
     <Container {...rest}>
       <Title>{data.question}</Title>
-      {/*<Text>{data.answers}</Text>*/}
+      {/*<Text>{mocks.answers}</Text>*/}
       <FlatList
         data={data.answers}
         keyExtractor={(item) => item}

@@ -1,32 +1,18 @@
 import React from 'react';
 import { RectButtonProps } from 'react-native-gesture-handler';
-import { questionsDTO } from '../../dtos/questionsDTO';
-
 import {
-  Container,
-  Title,
   Amount,
-  Footer,
   Category,
-  Icon,
   CategoryName,
+  Container,
   Date,
+  Footer,
+  Title,
 } from './styles';
-
-interface Category {
-  name: string;
-  // icon: string;
-}
-
-export interface TransactionCardProps {
-  title: string;
-  amount: string;
-  category: Category;
-  date: string;
-}
+import { QuizDTO } from '../../@types';
 
 interface Props extends RectButtonProps {
-  data: questionsDTO;
+  data: QuizDTO;
 }
 
 export function TransactionCard({ data, ...rest }: Props) {
@@ -39,10 +25,10 @@ export function TransactionCard({ data, ...rest }: Props) {
 
       <Footer>
         <Category>
-          {/* <Icon name={data.category.icon} /> */}
-          <CategoryName>{data.totalItems}</CategoryName>
+          {/* <Icon name={mocks.category.icon} /> */}
+          <CategoryName>{data.categoryId}</CategoryName>
         </Category>
-        <Date>{data.isActive}</Date>
+        <Date>{data.createdAt}</Date>
       </Footer>
     </Container>
   );

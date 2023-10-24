@@ -8,10 +8,10 @@ import {
   useFonts,
 } from '@expo-google-fonts/poppins';
 import theme from './global/styles/theme';
-import { AuthProvider } from './contexts/auth';
 import { NavigationContainer } from '@react-navigation/native';
-import Routes from './routes';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Routes from './routes';
+import { AuthProvider } from '@hooks/useAuth';
 
 export default function App() {
   const [fontsLoaded] = useFonts({

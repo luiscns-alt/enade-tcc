@@ -8,7 +8,7 @@ interface MyAxiosRequestConfig extends AxiosRequestConfig {
 }
 
 const api = axios.create({
-  baseURL: "http://10.0.0.181:3000",
+  baseURL: apiUrl,
 });
 
 export { api };

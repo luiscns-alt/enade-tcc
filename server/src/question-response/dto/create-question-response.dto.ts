@@ -3,7 +3,7 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class CreateQuestionResponseDto {
   @IsString()
   @IsNotEmpty()
-  quizResponseId?: string;
+  quizResponseId: string;
 
   @IsString()
   @IsNotEmpty()

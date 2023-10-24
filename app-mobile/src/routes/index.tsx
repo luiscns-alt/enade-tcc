@@ -1,16 +1,12 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
-
-import { useAuth } from '../contexts/auth';
-import { AppRoutes } from './app.routes';
+import { AppStackRoutes } from './app.stack.routes';
 import { AuthRoutes } from './auth.routes';
-
-// import AuthRoutes from '../routes/auth.routes';
-// import AppRoutes from '../routes/app.routes';
+import { useAuth } from '@hooks/useAuth';
 
 const Routes: React.FC = () => {
   const { signed, loading } = useAuth();
-
+    console.log(signed)
   if (loading) {
     return (
       <View
@@ -25,7 +21,7 @@ const Routes: React.FC = () => {
     );
   }
 
-  return signed ? <AppRoutes /> : <AuthRoutes />;
+  return signed ? <AppStackRoutes /> : <AuthRoutes />;
 };
 
 export default Routes;

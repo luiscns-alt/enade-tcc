@@ -1,35 +1,9 @@
-import { useState, useCallback } from 'react';
-import { getToken } from '../contexts/auth';
-import { api } from '../services/api';
 import { API_ENDPOINTS } from '../util/constants';
-
-type QuizData = {
-  id: string;
-  title: string;
-  description: string;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
-  userId: string | null;
-  categoryId: string;
-  question: Question[];
-};
-
-type Question = {
-  id: string;
-  title: string;
-  type: 'OBJECTIVE'; // "OTHER_TYPE"
-  image: string | null;
-  quizId: string;
-  answers: Answer[];
-};
-
-type Answer = {
-  id: string;
-  text: string;
-  isCorrect: boolean;
-  questionId: string;
-};
+import { CustomError } from '@src/@types/error';
+import { QuizData } from '@src/@types';
+import { api } from '@services/api';
+import { getToken } from '@hooks/useAuth';
+import { useCallback, useState } from 'react';
 
 const initialQuizData: QuizData = {
   id: '',
@@ -44,9 +18,9 @@ const initialQuizData: QuizData = {
 };
 
 export function useFetchQuiz(quizId: string) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [questions, setQuestions] = useState<QuizData>(initialQuizData);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<CustomError>(null);
 
   const fetchQuiz = useCallback(async () => {
     try {
