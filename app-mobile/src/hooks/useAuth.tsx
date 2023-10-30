@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '@services/api';
-import { API_ENDPOINTS } from '@src/util/constants';
+import { API_ENDPOINTS } from '../util/constants';
 
 const TOKEN_KEY = '@RNAuth:token';
 const USER_KEY = '@RNAuth:user';

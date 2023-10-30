@@ -9,23 +9,25 @@ import {
   Footer,
   Title,
 } from './styles';
-import { QuizDTO } from '../../@types';
+import { QuizDTO } from '@src/@types';
+import useLocale from '@hooks/use-locale';
 
 interface Props extends RectButtonProps {
   data: QuizDTO;
 }
 
 export function TransactionCard({ data, ...rest }: Props) {
+  const { t } = useLocale();
+
   return (
     <Container {...rest}>
-      <Title>Título: </Title>
+      <Title>{t('HOME.TITLE')}</Title>
       <Amount>{data.title}</Amount>
-      <Title>Descrição: </Title>
+      <Title>{t('HOME.DESCRIPTION')}</Title>
       <Title>{data.description}</Title>
 
       <Footer>
         <Category>
-          {/* <Icon name={mocks.category.icon} /> */}
           <CategoryName>{data.categoryId}</CategoryName>
         </Category>
         <Date>{data.createdAt}</Date>

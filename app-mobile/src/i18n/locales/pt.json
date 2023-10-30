@@ -1,0 +1,43 @@
+{
+  "GREETING": "Olá!",
+  "FORM": {
+    "EMAIL_INPUT": "Email",
+    "NAME_INPUT": "Nome",
+    "PASSWORD_INPUT": "Senha",
+    "CONFIRM_PASSWORD": "Confirme a Senha",
+    "LOGIN_BUTTON": "Entrar"
+  },
+  "LOGIN": {
+    "SCREEN_NAME": "Entrar",
+    "NO_ACCOUNT": "Não tem uma conta?"
+  },
+  "SIGN_UP": {
+    "SCREEN_NAME": "Cadastro",
+    "REGISTER": "Cadastrar",
+    "ALREADY_HAVE_ACCOUNT": "Já tem uma conta?",
+    "LOGIN_ACTION": "Faça o login"
+  },
+  "FORM_ERROR_MESSAGES": {
+    "NAME_REQUIRED": "Nome é obrigatório",
+    "PASSWORD_REQUIRED": "Senha é obrigatório",
+    "EMAIL_REQUIRED": "E-mail é obrigatório",
+    "CONFIRM_PASSWORD_REQUIRED": "Confirme a Senha é obrigatório"
+  },
+  "HOME": {
+    "HELLO": "Hello, {{name}}",
+    "TITLE": "Título: ",
+    "DESCRIPTION": "Descrição: "
+  },
+  "QUESTIONNAIRES": {
+    "QUESTION": "Question",
+    "CONGRATULATIONS": "Parabéns!",
+    "OOPS": "Oops!",
+    "REPEAT_TEST": "Repetir teste",
+    "GO_BACK_TO_HOME_SCREEN": "Voltar a tela inicial"
+  },
+  "ERROR": {
+    "DATA_FETCH_ERROR": "Ocorreu um erro ao buscar os dados. Por favor, tente novamente.",
+    "GENERIC_ERROR": "Desculpe, ocorreu um erro inesperado. Por favor, tente novamente mais tarde.",
+    "GO_BACK": "Voltar"
+  }
+}

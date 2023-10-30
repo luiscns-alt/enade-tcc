@@ -17,22 +17,23 @@ import {
   Title,
 } from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useAuth } from '@hooks/useAuth';
+import useLocale from '@hooks/use-locale';
 
 type FormData = FieldValues & {
   username: string;
   password: string;
 };
 
-const schema = Yup.object().shape({
-  username: Yup.string().required('Nome é obrigatório'),
-  password: Yup.string().required('Senha é obrigatório'),
-});
-
 export function SignIn() {
   const navigation = useNavigation();
   const { signIn } = useAuth();
+  const { t } = useLocale();
+
+  const schema = Yup.object().shape({
+    username: Yup.string().required(t('FORM_ERROR_MESSAGES.NAME_REQUIRED')),
+    password: Yup.string().required(t('FORM_ERROR_MESSAGES.PASSWORD_REQUIRED')),
+  });
   const {
     control,
     handleSubmit,
@@ -57,7 +58,7 @@ export function SignIn() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
         <Header>
-          <Title>Login</Title>
+          <Title>{t('LOGIN.SCREEN_NAME')}</Title>
         </Header>
 
         <Form>
@@ -65,7 +66,7 @@ export function SignIn() {
             <InputForm
               name='username'
               control={control}
-              placeholder='Email'
+              placeholder={t('FORM.EMAIL_INPUT')}
               // autoCapitalize="sentences"
               autoCorrect={false}
               autoCapitalize='none'
@@ -77,7 +78,7 @@ export function SignIn() {
             <InputForm
               name='password'
               control={control}
-              placeholder='Senha'
+              placeholder={t('FORM.PASSWORD_INPUT')}
               // autoCapitalize="sentences"
               // autoCorrect={false}
               secureTextEntry
@@ -86,13 +87,13 @@ export function SignIn() {
           </Fields>
           <Button
             onPress={handleSubmit(handleRegister as SubmitHandler<FieldValues>)}
-            title='Login'
+            title={t('LOGIN.LOGIN_BUTTON')}
           />
         </Form>
         <Row>
-          <Text>Não tem uma conta? </Text>
+          <Text>{t('LOGIN.NO_ACCOUNT')}</Text>
           <TouchableOpacity onPress={handleRegistration}>
-            <Link>Cadastrar</Link>
+            <Link>{t('SIGN_UP.REGISTER')}</Link>
           </TouchableOpacity>
         </Row>
       </Container>

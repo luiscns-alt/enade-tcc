@@ -12,6 +12,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Routes from './routes';
 import { AuthProvider } from '@hooks/useAuth';
+import { I18nextProvider } from 'react-i18next';
+import { initI18n } from './i18n/i18n.config';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,9 +28,11 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
-          <AuthProvider>
-            <Routes />
-          </AuthProvider>
+          <I18nextProvider i18n={initI18n('pt-BR')}>
+            <AuthProvider>
+              <Routes />
+            </AuthProvider>
+          </I18nextProvider>
         </NavigationContainer>
       </GestureHandlerRootView>
     </ThemeProvider>

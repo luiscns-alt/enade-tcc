@@ -13,7 +13,8 @@
       "@screens/*": ["./src/screens/*"],
       "@routes/*": ["./src/routes/*"],
       "@services/*": ["./src/services/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@mocks/*": ["./src/mocks/*"],
     }
   }
 }

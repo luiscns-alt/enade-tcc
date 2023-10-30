@@ -9,6 +9,5 @@
     "plugins": [
       "expo-localization"
     ]
-  },
-  "name": "enade"
+  }
 }

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Keyboard, Modal, TouchableWithoutFeedback, Alert } from 'react-native';
+import { Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { useForm } from 'react-hook-form';
-
-import { InputForm } from '../../components/Form/InputForm';
+import { InputForm } from '@components/Form/InputForm';
 import { Container, Fields, Form, Header, Title } from './styles';
-import { Button } from '../../components/Button';
+import { Button } from '@components/Button';
 
 interface FormData {
   name: string;

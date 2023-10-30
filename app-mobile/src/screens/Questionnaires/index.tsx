@@ -1,16 +1,20 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { ActivityIndicator, Animated } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BackButton } from '@components/BackButton';
-import { questionsDTO } from '@src/dtos/questionsDTO';
 import {
+  Container,
   ContainerModal,
   ContainerOptions,
   ContainerOptionsDiv,
   ContainerQuestion,
+  Content,
   CorrectOption,
+  Divider,
+  Header,
   Icon,
+  LoadContainer,
   NextButton,
   OptionSelected,
   ProgressBar,
@@ -28,28 +32,28 @@ import {
   ViewModal,
   ViewQuestion,
   ViewText,
-} from '../Quiz/styles';
-import { Container, Content, Divider, Header, LoadContainer } from './styles';
+} from './styles';
 import { useFetchQuiz } from '@hooks/useFetchQuiz';
-import { QuestionResponse } from '@src/@types';
+import { Question, QuestionResponse } from '@src/@types';
 import { useTheme } from 'styled-components';
-import { useAuth } from '@hooks/useAuth';
 import { useSubmitAnswers } from '@hooks/useSubmitAnswers';
 import { useMe } from '@hooks/useMe';
+import useLocale from '@hooks/use-locale';
+import { Error } from '@screens/Error';
 
 interface Params {
-  quiz: questionsDTO;
+  quiz: Question;
 }
 
 export function Questionnaires() {
   const navigation = useNavigation();
   const theme = useTheme();
+  const { t } = useLocale();
   const { quiz } = useRoute().params as Params;
   const { loading, questions, error, fetchQuiz } = useFetchQuiz(quiz.id);
   const { submitAnswers } = useSubmitAnswers();
   const { user } = useMe();
 
-  const [student, setStudent] = useState({});
   const [allQuestions, setAllQuestions] = useState<QuestionResponse[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentOptionSelected, setCurrentOptionSelected] = useState(null);
@@ -74,8 +78,7 @@ export function Questionnaires() {
       quizId: quiz.id,
       questionsResponse: allQuestions,
     };
-    console.log(createQuizResponse);
-    submitAnswers(createQuizResponse).then((response) => {
+    submitAnswers(createQuizResponse).then(() => {
       navigation.goBack();
     });
   };
@@ -91,6 +94,7 @@ export function Questionnaires() {
     setCurrentOptionSelected(selectedOption);
     setIsOptionsDisabled(true);
     if (selectedOption.isCorrect) {
+      setCorrectOption(selectedOption.isCorrect);
       setScore(score + 1);
     }
     setShowNextButton(true);
@@ -100,6 +104,7 @@ export function Questionnaires() {
     if (isLastQuestion()) {
       setShowScoreModal(true);
     } else {
+      setCorrectOption(null);
       moveToNextQuestion();
     }
     animateProgressBar();
@@ -153,14 +158,16 @@ export function Questionnaires() {
       currentQuestionIndex < questions.question.length;
 
     if (!isIndexValid) {
-      return null; // fallback aqui
+      return <Error />;
     }
 
     return (
       <ContainerQuestion>
         {/* Question Counter */}
         <ViewQuestion>
-          <TextQuestion>Pergunta {currentQuestionIndex + 1} </TextQuestion>
+          <TextQuestion>
+            {t('QUESTIONNAIRES.QUESTION')} {currentQuestionIndex + 1}{' '}
+          </TextQuestion>
           <TextIndexQuestion>/ {questions?.question?.length}</TextIndexQuestion>
         </ViewQuestion>
 
@@ -182,7 +189,7 @@ export function Questionnaires() {
       currentQuestionIndex < questions.question.length;
 
     if (!isIndexValid) {
-      return null; //  fallback aqui
+      return <Error />;
     }
 
     return (
@@ -253,11 +260,7 @@ export function Questionnaires() {
   }
 
   if (error) {
-    return (
-      <ViewText>
-        Ocorreu um erro ao buscar os dados. Por favor, tente novamente.
-      </ViewText>
-    );
+    return <ViewText>{t('ERROR.DATA_FETCH_ERROR')}</ViewText>;
   }
 
   return (
@@ -266,10 +269,10 @@ export function Questionnaires() {
         <BackButton onPress={handleBack} />
       </Header>
       <Divider />
-      {loading ? null : (
+      {!loading && (
         <Content>
           {/* ProgressBar */}
-          {/*{renderProgressBar()}*/}
+          {renderProgressBar()}
 
           {/* Question */}
           {renderQuestion()}
@@ -290,8 +293,8 @@ export function Questionnaires() {
               <ViewModal>
                 <ViewText>
                   {score > questions?.question?.length / 2
-                    ? 'Parabéns!'
-                    : 'Oops!'}
+                    ? t('QUESTIONNAIRES.CONGRATULATIONS')
+                    : t('QUESTIONNAIRES.OOPS')}
                 </ViewText>
                 <ScoreView>
                   <ScoreText isActive={score > questions?.question?.length / 2}>
@@ -301,10 +304,12 @@ export function Questionnaires() {
                 </ScoreView>
                 {/* Retry Quiz button */}
                 <Retry onPress={restartQuiz}>
-                  <RetryText>Repetir teste</RetryText>
+                  <RetryText>{t('QUESTIONNAIRES.REPEAT_TEST')}</RetryText>
                 </Retry>
                 <Retry style={{ marginTop: 10 }} onPress={handleSaveBack}>
-                  <RetryText>Voltar a tela inicial</RetryText>
+                  <RetryText>
+                    {t('QUESTIONNAIRES.GO_BACK_TO_HOME_SCREEN')}
+                  </RetryText>
                 </Retry>
               </ViewModal>
             </ContainerModal>

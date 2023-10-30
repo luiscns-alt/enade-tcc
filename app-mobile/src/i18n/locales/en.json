@@ -1,0 +1,43 @@
+{
+  "GREETING": "Hello!",
+  "FORM": {
+    "EMAIL_INPUT": "Email",
+    "NAME_INPUT": "Name",
+    "PASSWORD_INPUT": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "LOGIN_BUTTON": "Log In"
+  },
+  "LOGIN": {
+    "SCREEN_NAME": "Login",
+    "NO_ACCOUNT": "Don't have an account?"
+  },
+  "SIGN_UP": {
+    "SCREEN_NAME": "Sign Up",
+    "REGISTRATION": "Registration",
+    "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+    "LOGIN_ACTION": "Log in"
+  },
+  "FORM_ERROR_MESSAGES": {
+    "NAME_REQUIRED": "Name is required",
+    "PASSWORD_REQUIRED": "Password is required",
+    "EMAIL_REQUIRED": "Email is required",
+    "CONFIRM_PASSWORD_REQUIRED": "Confirm Password is required"
+  },
+  "HOME": {
+    "HELLO": "Hello, {{name}}",
+    "TITLE": "Title: ",
+    "DESCRIPTION": "Description: "
+  },
+  "QUESTIONNAIRES": {
+    "QUESTION": "Pergunta",
+    "CONGRATULATIONS": "Congratulations",
+    "OOPS": "Oops!",
+    "REPEAT_TEST": "Repeat Test",
+    "GO_BACK_TO_HOME_SCREEN": "Go Back to Home Screen"
+  },
+  "ERROR": {
+    "DATA_FETCH_ERROR": "An error occurred while fetching the data. Please try again.",
+    "GENERIC_ERROR": "Sorry, an unexpected error occurred. Please try again later.",
+    "GO_BACK": "Go Back"
+  }
+}

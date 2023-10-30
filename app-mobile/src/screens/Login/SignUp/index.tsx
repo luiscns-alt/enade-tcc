@@ -17,8 +17,8 @@ import {
   Title,
 } from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useAuth } from '@hooks/useAuth';
+import useLocale from '@hooks/use-locale';
 
 interface FormData {
   name: string;
@@ -27,16 +27,19 @@ interface FormData {
   confirmPassword: string;
 }
 
-const schema = Yup.object().shape({
-  name: Yup.string().required('Nome é obrigatório'),
-  email: Yup.string().required('E-mail é obrigatório'),
-  password: Yup.string().required('Senha é obrigatório'),
-  confirmPassword: Yup.string().required('Confirme a Senha é obrigatório'),
-});
-
 export function SignUp() {
   const navigation = useNavigation();
   const { registerUser } = useAuth();
+  const { t } = useLocale();
+
+  const schema = Yup.object().shape({
+    name: Yup.string().required(t('FORM_ERROR_MESSAGES.NAME_REQUIRED')),
+    email: Yup.string().required(t('FORM_ERROR_MESSAGES.EMAIL_REQUIRED')),
+    password: Yup.string().required(t('FORM_ERROR_MESSAGES.PASSWORD_REQUIRED')),
+    confirmPassword: Yup.string().required(
+      t('FORM_ERROR_MESSAGES.CONFIRM_PASSWORD_REQUIRED')
+    ),
+  });
   const {
     control,
     handleSubmit,
@@ -52,7 +55,6 @@ export function SignUp() {
       password: form.password,
       confirm: form.confirmPassword,
     };
-    // console.log(mocks);
     registerUser(data);
   }
 
@@ -64,7 +66,7 @@ export function SignUp() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
         <Header>
-          <Title>Cadastro</Title>
+          <Title>{t('SIGN_UP.SCREEN_NAME')}</Title>
         </Header>
 
         <Form>
@@ -72,7 +74,7 @@ export function SignUp() {
             <InputForm
               name='name'
               control={control}
-              placeholder='Nome'
+              placeholder={t('FORM.NAME_INPUT')}
               autoCorrect={false}
               autoCapitalize='none'
               // autoCompleteType="email"
@@ -83,7 +85,7 @@ export function SignUp() {
             <InputForm
               name='email'
               control={control}
-              placeholder='Email'
+              placeholder={t('FORM.EMAIL_INPUT')}
               autoCorrect={false}
               autoCapitalize='none'
               autoComplete='email'
@@ -94,7 +96,7 @@ export function SignUp() {
             <InputForm
               name='password'
               control={control}
-              placeholder='Senha'
+              placeholder={t('FORM.PASSWORD_INPUT')}
               // autoCapitalize="sentences"
               // autoCorrect={false}
               secureTextEntry
@@ -103,7 +105,7 @@ export function SignUp() {
             <InputForm
               name='confirmPassword'
               control={control}
-              placeholder='Confirme a Senha'
+              placeholder={t('FORM_ERROR_MESSAGES.CONFIRM_PASSWORD_REQUIRED')}
               // autoCapitalize="sentences"
               // autoCorrect={false}
               secureTextEntry
@@ -112,13 +114,13 @@ export function SignUp() {
           </Fields>
           <Button
             onPress={handleSubmit(handleRegister as SubmitHandler<FieldValues>)}
-            title='Cadastrar'
+            title={t('SIGN_UP.REGISTRATION')}
           />
         </Form>
         <Row>
-          <Text>Já tem uma conta? </Text>
+          <Text>{t('SIGN_UP.ALREADY_HAVE_ACCOUNT')} </Text>
           <TouchableOpacity onPress={handleLogin}>
-            <Link>Faça o login</Link>
+            <Link>{t('SIGN_UP.LOGIN_ACTION')}</Link>
           </TouchableOpacity>
         </Row>
       </Container>

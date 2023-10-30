@@ -68,6 +68,7 @@ interface ApiError {
 export {
   ApiError,
   QuestionResponse,
+  Question,
   QuizDTO,
   QuizData,
   QuizResponse,

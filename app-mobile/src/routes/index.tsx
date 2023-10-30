@@ -6,7 +6,7 @@ import { useAuth } from '@hooks/useAuth';
 
 const Routes: React.FC = () => {
   const { signed, loading } = useAuth();
-    console.log(signed)
+
   if (loading) {
     return (
       <View

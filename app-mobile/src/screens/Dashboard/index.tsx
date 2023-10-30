@@ -6,7 +6,6 @@ import {
   Icon,
   LogoutButton,
   Photo,
-  Title,
   Transactions,
   User,
   UserGreeting,
@@ -20,10 +19,12 @@ import { QuizDTO } from 'src/@types';
 import { TransactionCard } from '@components/TransactionCard';
 import { useListQuiz } from '@hooks/useListQuiz';
 import { useAuth } from '@hooks/useAuth';
+import useLocale from '@hooks/use-locale';
 
 export function Dashboard() {
   const navigation = useNavigation();
   const { signOut } = useAuth();
+  const { t } = useLocale();
   const { quizzes, loading } = useListQuiz();
 
   async function handleSignOut() {
@@ -59,7 +60,7 @@ export function Dashboard() {
               }}
             />
             <User>
-              <UserGreeting>Olá,</UserGreeting>
+              <UserGreeting>{t('HOME.HELLO')},</UserGreeting>
               <UserName>Name </UserName>
             </User>
           </UserInfo>
@@ -70,7 +71,6 @@ export function Dashboard() {
       </Header>
 
       <Transactions>
-        <Title>Lista de Questionário</Title>
         <FlatList
           data={quizzes}
           keyExtractor={(item) => item.id}
