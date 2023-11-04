@@ -1,74 +1,33 @@
 import React from 'react';
+import useLocale from '@hooks/use-locale';
+import { FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import {
-  Container,
-  Header,
-  Icon,
-  LogoutButton,
-  Photo,
-  Transactions,
-  User,
-  UserGreeting,
-  UserInfo,
-  UserName,
-  UserWrapper,
-} from './styles';
-import { ActivityIndicator, FlatList, View } from 'react-native';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import { QuizDTO } from 'src/@types';
+import { Container, Header, Transactions } from './styles';
+import { Loading } from '@components/Loading';
 import { TransactionCard } from '@components/TransactionCard';
 import { useListQuiz } from '@hooks/useListQuiz';
-import { useAuth } from '@hooks/useAuth';
-import useLocale from '@hooks/use-locale';
+import { QuizDTO } from '@src/@types';
 
 export function Dashboard() {
   const navigation = useNavigation();
-  const { signOut } = useAuth();
   const { t } = useLocale();
-  const { quizzes, loading } = useListQuiz();
-
-  async function handleSignOut() {
-    await signOut();
-  }
+  const { quizzes, loading, user } = useListQuiz();
 
   function handleQuestionnaires(quiz: QuizDTO) {
     navigation.navigate('QuestionnairesScreen', { quiz });
   }
 
   if (loading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <ActivityIndicator size='large' color='#666' />
-      </View>
-    );
+    return <Loading />;
   }
 
   return (
     <Container>
-      <Header>
-        <UserWrapper>
-          <UserInfo>
-            <Photo
-              source={{
-                uri: 'https://avatars.githubusercontent.com/u/82232848?v=4',
-              }}
-            />
-            <User>
-              <UserGreeting>{t('HOME.HELLO')},</UserGreeting>
-              <UserName>Name </UserName>
-            </User>
-          </UserInfo>
-          <LogoutButton onPress={handleSignOut}>
-            <Icon name='power' />
-          </LogoutButton>
-        </UserWrapper>
-      </Header>
+      <Header
+        title={t('TITLE.QUESTIONNAIRE_LIST')}
+        userName={t('HOME.HELLO', { name: user.name })}
+      />
 
       <Transactions>
         <FlatList

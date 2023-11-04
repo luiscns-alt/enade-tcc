@@ -39,5 +39,12 @@
     "DATA_FETCH_ERROR": "An error occurred while fetching the data. Please try again.",
     "GENERIC_ERROR": "Sorry, an unexpected error occurred. Please try again later.",
     "GO_BACK": "Go Back"
+  },
+  "DATE": {
+    "FORMAT": "MM/dd/yyyy"
+  },
+  "TITLE": {
+    "QUESTIONNAIRE_RESPONSES": "Respostas Questionários",
+    "QUESTIONNAIRE_LIST": "Questionnaire Lists"
   }
 }

@@ -60,6 +60,43 @@ interface QuizResponse {
   questionsResponse: QuestionResponse[];
 }
 
+interface QuizResponseUser {
+  id: string;
+  userId: string;
+  quizId: string;
+  answeredAt: string;
+  quiz: {
+    id: string;
+    title: string;
+    description: string;
+    published: boolean;
+    createdAt: string;
+    updatedAt: string;
+    userId: string | null;
+    categoryId: string;
+  };
+  questionsResponse: {
+    id: string;
+    quizResponseId: string;
+    questionId: string;
+    selectedAnswerId: string;
+    discursiveAnswer: string | null;
+    question: {
+      id: string;
+      title: string;
+      type: string;
+      image: string | null;
+      quizId: string;
+      answers: {
+        id: string;
+        text: string;
+        isCorrect: boolean;
+        questionId: string;
+      }[];
+    };
+  }[];
+}
+
 interface ApiError {
   statusCode: number;
   message: 'Unauthorized';
@@ -73,4 +110,5 @@ export {
   QuizData,
   QuizResponse,
   UserData,
+  QuizResponseUser,
 };

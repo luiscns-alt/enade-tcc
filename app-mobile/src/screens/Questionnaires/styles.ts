@@ -152,7 +152,7 @@ export const Retry = styled.TouchableOpacity`
   border-radius: 20px;
 `;
 interface ScoreTextProps {
-  isActive: boolean
+  isActive: boolean;
 }
 export const ScoreText = styled.Text<ScoreTextProps>`
   font-size: ${RFValue(30)}px;
@@ -205,10 +205,4 @@ export const Subject = styled.Text`
   color: ${({ theme }) => theme.colors.success};
 
   margin-top: 2px;
-`;
-
-export const LoadContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
 `;

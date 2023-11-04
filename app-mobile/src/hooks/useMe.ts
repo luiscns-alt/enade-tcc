@@ -1,9 +1,9 @@
 import { api } from '@services/api';
 import { getToken } from '@hooks/useAuth';
 import { useEffect, useState } from 'react';
-import { API_ENDPOINTS } from '../util/constants';
 import { CustomError } from '@src/@types/error';
 import { UserData } from '@src/@types';
+import { API_ENDPOINTS } from '../util/constants';
 
 const initialUser: UserData = {
   id: '',

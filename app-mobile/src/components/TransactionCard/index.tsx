@@ -11,6 +11,7 @@ import {
 } from './styles';
 import { QuizDTO } from '@src/@types';
 import useLocale from '@hooks/use-locale';
+import DateFormat from '@components/DateFormat';
 
 interface Props extends RectButtonProps {
   data: QuizDTO;
@@ -27,10 +28,7 @@ export function TransactionCard({ data, ...rest }: Props) {
       <Title>{data.description}</Title>
 
       <Footer>
-        <Category>
-          <CategoryName>{data.categoryId}</CategoryName>
-        </Category>
-        <Date>{data.createdAt}</Date>
+        <DateFormat date={data.createdAt} />
       </Footer>
     </Container>
   );

@@ -5,6 +5,7 @@ import { API_ENDPOINTS } from '../util/constants';
 
 const TOKEN_KEY = '@RNAuth:token';
 const USER_KEY = '@RNAuth:user';
+export const USER_ID = '@RNAuth:userId';
 
 export const getToken = async () => {
   try {
@@ -57,8 +58,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await api.post(API_ENDPOINTS.LOGIN, data);
       const token = response.data.Authorization;
       setUser(token);
+      const userId = response.data.data.id;
       await AsyncStorage.setItem(USER_KEY, JSON.stringify(token));
       await AsyncStorage.setItem(TOKEN_KEY, token);
+      await AsyncStorage.setItem(USER_ID, userId);
     } catch (error) {
       console.error('Error during sign in:', error);
     }

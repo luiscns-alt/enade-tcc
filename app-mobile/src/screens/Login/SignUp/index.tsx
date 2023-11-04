@@ -105,7 +105,7 @@ export function SignUp() {
             <InputForm
               name='confirmPassword'
               control={control}
-              placeholder={t('FORM_ERROR_MESSAGES.CONFIRM_PASSWORD_REQUIRED')}
+              placeholder={t('FORM.CONFIRM_PASSWORD')}
               // autoCapitalize="sentences"
               // autoCorrect={false}
               secureTextEntry
@@ -114,7 +114,7 @@ export function SignUp() {
           </Fields>
           <Button
             onPress={handleSubmit(handleRegister as SubmitHandler<FieldValues>)}
-            title={t('SIGN_UP.REGISTRATION')}
+            title={t('SIGN_UP.REGISTER')}
           />
         </Form>
         <Row>

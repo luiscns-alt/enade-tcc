@@ -87,7 +87,7 @@ export function SignIn() {
           </Fields>
           <Button
             onPress={handleSubmit(handleRegister as SubmitHandler<FieldValues>)}
-            title={t('LOGIN.LOGIN_BUTTON')}
+            title={t('FORM.LOGIN_BUTTON')}
           />
         </Form>
         <Row>

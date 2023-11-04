@@ -24,7 +24,7 @@
     "CONFIRM_PASSWORD_REQUIRED": "Confirme a Senha é obrigatório"
   },
   "HOME": {
-    "HELLO": "Hello, {{name}}",
+    "HELLO": "Olá, {{name}}",
     "TITLE": "Título: ",
     "DESCRIPTION": "Descrição: "
   },
@@ -39,5 +39,12 @@
     "DATA_FETCH_ERROR": "Ocorreu um erro ao buscar os dados. Por favor, tente novamente.",
     "GENERIC_ERROR": "Desculpe, ocorreu um erro inesperado. Por favor, tente novamente mais tarde.",
     "GO_BACK": "Voltar"
+  },
+  "DATE": {
+    "FORMAT": "dd/MM/yyyy"
+  },
+  "TITLE": {
+    "QUESTIONNAIRE_RESPONSES": "Respostas Questionários",
+    "QUESTIONNAIRE_LIST": "Lista de Questionários"
   }
 }

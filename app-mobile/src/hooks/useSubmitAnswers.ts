@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { api } from '@services/api';
-import { API_ENDPOINTS } from '../util/constants';
 import { QuizResponse } from '../@types';
 import { getToken } from '@hooks/useAuth';
 import { CustomError } from '@src/@types/error';
+import { API_ENDPOINTS } from '../util/constants';
 
 const useSubmitAnswers = () => {
   const [error, setError] = useState<CustomError>(null);

@@ -29,7 +29,7 @@ export const Footer = styled.View`
   justify-content: space-between;
   align-items: center;
 
-  margin-top: 19px;
+  margin-top: 5px;
 `;
 
 export const Category = styled.View`

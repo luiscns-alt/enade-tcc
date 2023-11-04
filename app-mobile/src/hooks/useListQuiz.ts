@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { api } from '@services/api';
-import { API_ENDPOINTS } from '../util/constants';
 import { QuizDTO } from '../@types';
 import { getToken } from '@hooks/useAuth';
 import { CustomError } from '@src/@types/error';
+import { API_ENDPOINTS } from '../util/constants';
+import { useMe } from '@hooks/useMe';
 
 export function useListQuiz() {
+  const { user } = useMe();
   const [quizzes, setQuizzes] = useState<QuizDTO[]>([]);
   const [error, setError] = useState<CustomError>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -30,5 +32,5 @@ export function useListQuiz() {
     fetchData();
   }, []);
 
-  return { quizzes, error, loading };
+  return { quizzes, error, loading, user };
 }
