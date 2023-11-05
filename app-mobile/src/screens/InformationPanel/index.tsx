@@ -6,16 +6,18 @@ import { Container, Transactions } from './styles';
 import { Header } from '@components/Header';
 import { Loading } from '@components/Loading';
 import { TransactionCard } from '@components/TransactionCard';
-import { useAuth } from '@hooks/useAuth';
 import { useQuizResponseUser } from '@hooks/useQuizResponseUser';
+import { useNavigation } from '@react-navigation/native';
 
 export function InformationPanel() {
   const { t } = useLocale();
-  const { signOut } = useAuth();
+  const navigation = useNavigation();
   const { responseQuiz, loading, user } = useQuizResponseUser();
 
-  async function handleSignOut() {
-    await signOut();
+  function handleListCompletedQuestionnaires(questionnairesId: string) {
+    navigation.navigate('ListCompletedQuestionnairesScreen', {
+      questionnairesId,
+    });
   }
 
   if (loading) {
@@ -33,7 +35,10 @@ export function InformationPanel() {
           data={responseQuiz}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TransactionCard data={item.quiz} onPress={() => {}} />
+            <TransactionCard
+              data={item.quiz}
+              onPress={() => handleListCompletedQuestionnaires(item.id)}
+            />
           )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{

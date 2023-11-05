@@ -4,6 +4,10 @@ export type QuestionnairesNavigationProps = {
   quiz: QuizDTO;
 };
 
+export type ListCompletedQuestionnairesNavigationProps = {
+  questionnairesId: string;
+};
+
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
@@ -11,6 +15,7 @@ export declare global {
       SignIn: undefined;
       Register: undefined;
       QuestionnairesScreen: QuestionnairesNavigationProps;
+      ListCompletedQuestionnairesScreen: ListCompletedQuestionnairesNavigationProps;
     }
   }
 }

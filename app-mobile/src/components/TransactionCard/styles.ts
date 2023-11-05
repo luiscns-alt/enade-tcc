@@ -3,10 +3,9 @@ import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { RectButton } from 'react-native-gesture-handler';
 
-export const Container = styled(RectButton)`
+export const Container = styled(RectButton as any)`
   background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 5px;
-
   padding: 17px 24px;
   margin-bottom: 16px;
 `;

@@ -3,11 +3,12 @@ import useLocale from '@hooks/use-locale';
 import { FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import { Container, Header, Transactions } from './styles';
+import { Container, Transactions } from './styles';
 import { Loading } from '@components/Loading';
 import { TransactionCard } from '@components/TransactionCard';
 import { useListQuiz } from '@hooks/useListQuiz';
 import { QuizDTO } from '@src/@types';
+import { Header } from '@components/Header';
 
 export function Dashboard() {
   const navigation = useNavigation();

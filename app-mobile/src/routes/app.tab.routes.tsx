@@ -17,12 +17,12 @@ export function AppTabRoutes() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: theme.colors.secondary,
+        tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.text,
         tabBarLabelPosition: 'beside-icon',
         tabBarStyle: {
           paddingVertical: Platform.OS === 'ios' ? 20 : 0,
-          height: 88,
+          height: 77,
         },
       }}
     >
@@ -40,17 +40,17 @@ export function AppTabRoutes() {
         }}
       />
       <Screen
-        name='Cadastrar'
-        component={Register}
+        name='Resumo'
+        component={InformationPanel}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name='note-add' size={size} color={color} />
+            <MaterialIcons name='assignment' size={size} color={color} />
           ),
         }}
       />
       <Screen
-        name='Resumo'
-        component={InformationPanel}
+        name='Cadastrar'
+        component={Register}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name='pie-chart' size={size} color={color} />

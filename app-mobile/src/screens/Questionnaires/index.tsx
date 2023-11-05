@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { ActivityIndicator, Animated } from 'react-native';
+import { Animated } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BackButton } from '@components/BackButton';
 import {
@@ -14,7 +14,6 @@ import {
   Divider,
   Header,
   Icon,
-  LoadContainer,
   NextButton,
   OptionSelected,
   ProgressBar,
@@ -35,11 +34,10 @@ import {
 } from './styles';
 import { useFetchQuiz } from '@hooks/useFetchQuiz';
 import { Question, QuestionResponse } from '@src/@types';
-import { useTheme } from 'styled-components';
 import { useSubmitAnswers } from '@hooks/useSubmitAnswers';
 import { useMe } from '@hooks/useMe';
 import useLocale from '@hooks/use-locale';
-import { Error } from '@screens/Error';
+import { Loading } from '@components/Loading';
 
 interface Params {
   quiz: Question;
@@ -47,7 +45,6 @@ interface Params {
 
 export function Questionnaires() {
   const navigation = useNavigation();
-  const theme = useTheme();
   const { t } = useLocale();
   const { quiz } = useRoute().params as Params;
   const { loading, questions, error, fetchQuiz } = useFetchQuiz(quiz.id);
@@ -158,7 +155,7 @@ export function Questionnaires() {
       currentQuestionIndex < questions.question.length;
 
     if (!isIndexValid) {
-      return <Error />;
+      return <ViewText>{t('ERROR.DATA_FETCH_ERROR')}</ViewText>;
     }
 
     return (
@@ -189,7 +186,7 @@ export function Questionnaires() {
       currentQuestionIndex < questions.question.length;
 
     if (!isIndexValid) {
-      return <Error />;
+      return <ViewText>{t('ERROR.DATA_FETCH_ERROR')}</ViewText>;
     }
 
     return (
@@ -252,11 +249,7 @@ export function Questionnaires() {
   }
 
   if (loading) {
-    return (
-      <LoadContainer>
-        <ActivityIndicator color={theme.colors.primary} size='large' />
-      </LoadContainer>
-    );
+    return <Loading />;
   }
 
   if (error) {

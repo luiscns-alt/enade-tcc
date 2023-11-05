@@ -27,9 +27,7 @@ export function TransactionCard({ data, ...rest }: Props) {
       <Title>{t('HOME.DESCRIPTION')}</Title>
       <Title>{data.description}</Title>
 
-      <Footer>
-        <DateFormat date={data.createdAt} />
-      </Footer>
+      <Footer>{/*<DateFormat date={data.createdAt} />*/}</Footer>
     </Container>
   );
 }

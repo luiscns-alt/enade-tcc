@@ -13,7 +13,7 @@ import React from 'react';
 import { useAuth } from '@hooks/useAuth';
 
 interface HeaderProps {
-  userName: string;
+  userName?: string;
   title: string;
 }
 
