@@ -16,10 +16,11 @@ async function bootstrap() {
   app.enableCors();
 
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('API de Gestão de Questionários')
+    .setDescription(
+      'Esta API permite o cadastro e gerenciamento de questionários, autenticação e registro de usuários, e coleta e armazenamento de respostas dos usuários.',
+    )
     .setVersion('1.0')
-    .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

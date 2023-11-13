@@ -12,12 +12,13 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { ApiSecurity } from '@nestjs/swagger';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 
+@ApiTags('question')
 @Controller('question')
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}

@@ -13,7 +13,7 @@ import {
   RegistrationStatus,
 } from './auth.service';
 import { CreateUserDto, LoginUserDto } from '../users/users.user.dto';
-import { ApiBearerAuth, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
 @Controller('auth')

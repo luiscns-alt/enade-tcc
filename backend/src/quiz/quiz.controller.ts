@@ -13,12 +13,13 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { ApiSecurity } from '@nestjs/swagger';
+import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { QuizService } from './quiz.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 
+@ApiTags('quiz')
 @Controller('quiz')
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}

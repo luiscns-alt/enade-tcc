@@ -86,6 +86,11 @@ export class QuizResponseService {
       status.data = await this.prisma.quizResponse.findUnique({
         where: { id },
         include: {
+          quiz: {
+            include: {
+              category: true,
+            },
+          },
           questionsResponse: {
             include: {
               question: {
@@ -150,7 +155,6 @@ export class QuizResponseService {
           userId,
         },
         include: {
-          user: true,
           quiz: true,
           questionsResponse: {
             include: {
