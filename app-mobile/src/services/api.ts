@@ -1,14 +1,25 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TOKEN_KEY } from '@hooks/useAuth';
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
-interface MyAxiosRequestConfig extends AxiosRequestConfig {
-  headers: {
-    Authorization?: string;
-    [key: string]: any;
-  };
-}
 
 const api = axios.create({
-  baseURL: 'http://10.0.0.181:3000',
+  baseURL: apiUrl,
 });
+
+api.interceptors.request.use(
+  async (config) => {
+    const token = await AsyncStorage.getItem(TOKEN_KEY);
+
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export { api };

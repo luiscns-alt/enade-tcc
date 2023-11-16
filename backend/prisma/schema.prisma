@@ -124,9 +124,9 @@ model Answer {
 
 model QuizResponse {
   id         String   @id @default(uuid())
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId     String
-  quiz       Quiz     @relation(fields: [quizId], references: [id])
+  quiz       Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   quizId     String
   answeredAt DateTime @default(now())
 
@@ -139,9 +139,9 @@ model QuestionResponse {
   id               String       @id @default(uuid())
   quizResponse     QuizResponse @relation(fields: [quizResponseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   quizResponseId   String
-  question         Question     @relation(fields: [questionId], references: [id])
+  question         Question     @relation(fields: [questionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   questionId       String
-  selectedAnswer   Answer?      @relation(fields: [selectedAnswerId], references: [id])
+  selectedAnswer   Answer?      @relation(fields: [selectedAnswerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   selectedAnswerId String?
   discursiveAnswer String? // No caso de respostas discursivas
 

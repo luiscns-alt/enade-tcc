@@ -2,23 +2,12 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '@services/api';
 import { API_ENDPOINTS } from '../util/constants';
+import { LoginFormData } from '@screens/Login/SignIn';
+import { RegisterFormData } from '@screens/Login/SignUp';
 
-const TOKEN_KEY = '@RNAuth:token';
+export const TOKEN_KEY = '@RNAuth:token';
 const USER_KEY = '@RNAuth:user';
 export const USER_ID = '@RNAuth:userId';
-
-export const getToken = async () => {
-  try {
-    const token = await AsyncStorage.getItem('userToken');
-    if (token !== null) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    } else {
-      delete api.defaults.headers.common['Authorization'];
-    }
-  } catch (error) {
-    console.error('Error getting token: ', error);
-  }
-};
 
 interface AuthContextData {
   signed: boolean;
@@ -39,29 +28,28 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  async function loadUserStorageData() {
-    setLoading(true);
+  useEffect(() => {
+    async function loadStorageData() {
+      const storedUser = await AsyncStorage.getItem(USER_KEY);
+      const storedToken = await AsyncStorage.getItem(TOKEN_KEY);
 
-    const storedUser = await AsyncStorage.getItem(USER_KEY);
-    const storedToken = await AsyncStorage.getItem(TOKEN_KEY);
-
-    if (storedUser && storedToken) {
-      setUser(JSON.parse(storedUser));
-      api.defaults.headers['Authorization'] = `Bearer ${storedToken}`;
+      if (storedUser && storedToken) {
+        setUser(JSON.parse(storedUser));
+        api.defaults.headers['Authorization'] = `Bearer ${storedToken}`;
+      }
+      setLoading(false);
     }
 
-    setLoading(false);
-  }
+    loadStorageData();
+  }, []);
 
-  async function signIn(data: any) {
+  async function signIn(formLogin: LoginFormData) {
     try {
-      const response = await api.post(API_ENDPOINTS.LOGIN, data);
-      const token = response.data.Authorization;
-      setUser(token);
-      const userId = response.data.data.id;
-      await AsyncStorage.setItem(USER_KEY, JSON.stringify(token));
-      await AsyncStorage.setItem(TOKEN_KEY, token);
-      await AsyncStorage.setItem(USER_ID, userId);
+      const { data } = await api.post(API_ENDPOINTS.LOGIN, formLogin);
+      await AsyncStorage.setItem(USER_KEY, JSON.stringify(data.Authorization));
+      await AsyncStorage.setItem(TOKEN_KEY, data.Authorization);
+      await AsyncStorage.setItem(USER_ID, data.data.id);
+      setUser(data.Authorization);
     } catch (error) {
       console.error('Error during sign in:', error);
     }
@@ -72,10 +60,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
   }
 
-  async function registerUser(data: any) {
+  async function registerUser(formRegister: RegisterFormData) {
     try {
-      const response = await api.post(API_ENDPOINTS.REGISTER, data);
-      const token = response.data.Authorization;
+      const { data } = await api.post(API_ENDPOINTS.REGISTER, formRegister);
+      const token = data.Authorization;
       if (token) {
         setUser(token);
         await AsyncStorage.setItem(USER_KEY, JSON.stringify(token));
@@ -85,10 +73,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.error('Error during registration:', error);
     }
   }
-
-  useEffect(() => {
-    loadUserStorageData();
-  }, []);
 
   return (
     <AuthContext.Provider

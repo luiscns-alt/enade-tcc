@@ -1,5 +1,4 @@
 import { api } from '@services/api';
-import { getToken } from '@hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { CustomError } from '@src/@types/error';
 import { UserData } from '@src/@types';
@@ -22,11 +21,9 @@ const useMe = () => {
   const [user, setUser] = useState<UserData>(initialUser);
 
   async function fetchData() {
-    setLoading(true);
     try {
-      await getToken();
+      setLoading(true);
       const { data } = await api.get(API_ENDPOINTS.USER_ME);
-
       setUser(data);
     } catch (error) {
       console.error(error);

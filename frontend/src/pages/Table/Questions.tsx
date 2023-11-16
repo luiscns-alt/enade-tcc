@@ -19,15 +19,15 @@ const handleRemove = async (t: any, selectedRows: API.QuizDTO[]) => {
     const ids = getIds(selectedRows, 'id');
     const res = await deleteQuestionnaires(ids);
     if (res.success) {
-      message.success(t.formatMessage({ id: 'app.created.success' }));
+      message.success(t.formatMessage({ id: 'app.deleted.success' }));
     } else {
-      message.error(t.formatMessage({ id: 'app.updated.fail' }) + ' - ' + res);
+      message.error(t.formatMessage({ id: 'app.deleted.fail' }) + ' - ' + res);
       return false;
     }
     return true;
   } catch (error) {
     hideLoadingMessage();
-    message.error(t.formatMessage({ id: 'app.created.fail' }));
+    message.error(t.formatMessage({ id: 'app.deleted.fail' }));
     return false;
   }
 };

@@ -20,7 +20,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAuth } from '@hooks/useAuth';
 import useLocale from '@hooks/use-locale';
 
-interface FormData {
+export interface RegisterFormData {
   name: string;
   email: string;
   password: string;
@@ -48,7 +48,7 @@ export function SignUp() {
     resolver: yupResolver(schema),
   });
 
-  function handleRegister(form: FormData) {
+  function handleRegister(form: RegisterFormData) {
     const data = {
       name: form.name,
       email: form.email,

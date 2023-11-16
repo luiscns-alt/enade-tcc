@@ -3,7 +3,6 @@ import { API_ENDPOINTS, INITIAL_QUIZ } from '../../util/constants';
 import { CustomError } from '@src/@types/error';
 import { QuizResponseUser } from '@src/@types';
 import { api } from '@services/api';
-import { getToken } from '@hooks/useAuth';
 import { useMe } from '@hooks/useMe';
 
 const initialQuiz: QuizResponseUser[] = INITIAL_QUIZ;
@@ -18,8 +17,6 @@ export function useQuizResponseUser() {
   const fetchQuizResponse = async () => {
     try {
       setLoading(true);
-      await getToken();
-
       const { data } = await api.get(
         API_ENDPOINTS.FETCH_QUIZ_RESPONSE_USER(user.id)
       );

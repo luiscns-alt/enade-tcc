@@ -20,7 +20,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAuth } from '@hooks/useAuth';
 import useLocale from '@hooks/use-locale';
 
-type FormData = FieldValues & {
+export type LoginFormData = FieldValues & {
   username: string;
   password: string;
 };
@@ -42,7 +42,7 @@ export function SignIn() {
     resolver: yupResolver(schema),
   });
 
-  const handleRegister: SubmitHandler<FormData> = async (form) => {
+  const handleRegister: SubmitHandler<LoginFormData> = async (form) => {
     const data = {
       login: form.username,
       password: form.password,

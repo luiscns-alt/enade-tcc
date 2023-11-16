@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { CustomError } from '@src/@types/error';
-import { getToken } from '@hooks/useAuth';
 import { api } from '@services/api';
 import {
   API_ENDPOINTS,
@@ -17,7 +16,6 @@ export function useQuizResponseByIdUser(id: string) {
   const fetchQuizResponseByIdUser = useCallback(async () => {
     try {
       setLoading(true);
-      await getToken();
       const { data } = await api.get(
         API_ENDPOINTS.QUIZ_RESPONSE_BY_ID_USER(id)
       );
