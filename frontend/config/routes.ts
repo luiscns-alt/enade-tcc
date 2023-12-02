@@ -40,7 +40,7 @@ export default [
     name: 'admin.Questionnaires',
     hideInMenu: true,
     path: '/answers-questions/:id',
-    component: '/TableListAnswersQuestions',
+    component: './TableListAnswersQuestions',
   },
   {
     path: '/admin',
