@@ -46,7 +46,7 @@ export default [
     name: 'admin.EditQuestionnaires',
     hideInMenu: true,
     path: '/questionnaires/:id',
-    component: '/Questionnaires',
+    component: '/Questionnaires'
   },{
     name: 'admin.Questionnaires',
     hideInMenu: true,

@@ -1,13 +1,13 @@
-import Questions from '@/pages/Table/Questions';
+import QuestionsData from '@/pages/Table/QuestionsData';
 import store from '@/redux/store';
 import { Provider } from 'react-redux';
 
-const Questionnaires = () => {
+const Table = () => {
   return (
     <Provider store={store}>
-      <Questions />
+      <QuestionsData />
     </Provider>
   );
 };
 
-export default Questionnaires;
+export default Table;

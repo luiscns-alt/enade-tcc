@@ -32,7 +32,7 @@ const handleRemove = async (t: any, selectedRows: API.QuizDTO[]) => {
   }
 };
 
-const Questions: React.FC = () => {
+const QuestionsData: React.FC = () => {
   const t = useIntl();
   const dispatch = useDispatch();
   const actionRef = useRef<ActionType>();
@@ -197,4 +197,4 @@ const Questions: React.FC = () => {
   );
 };
 
-export default Questions;
+export default QuestionsData;
