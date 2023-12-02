@@ -40,7 +40,7 @@ export default [
   },
   {
     path: '/questionnaires/new',
-    component: './Questionnaires',
+    component: '/Questionnaires',
   },
   {
     name: 'admin.EditQuestionnaires',
