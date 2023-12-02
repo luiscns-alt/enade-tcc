@@ -26,26 +26,22 @@ export default [
     icon: 'read',
     component: './Table',
   },
-  // {
-  //   path: '/questionnaires/new',
-  //   component: '/Questionnaires',
-  // },
-  // {
-  //   name: 'admin.EditQuestionnaires',
-  //   hideInMenu: true,
-  //   path: '/questionnaires/:id',
-  //   component: '/Questionnaires'
-  // },
-  // {
-  //   name: 'admin.Questionnaires',
-  //   hideInMenu: true,
-  //   path: '/answers-questions/:id',
-  //   component: '/TableListAnswersQuestions',
-  // },
-  // {
-  //   path: '/questionnaires/:id',
-  //   component: './Questionnaires/QuestionnairesData',
-  // },
+  {
+    path: '/questionnaires/new',
+    component: './Questionnaires',
+  },
+  {
+    name: 'admin.EditQuestionnaires',
+    hideInMenu: true,
+    path: '/questionnaires/:id',
+    component: './Questionnaires',
+  },
+  {
+    name: 'admin.Questionnaires',
+    hideInMenu: true,
+    path: '/answers-questions/:id',
+    component: '/TableListAnswersQuestions',
+  },
   {
     path: '/admin',
     name: 'admin',
@@ -60,22 +56,12 @@ export default [
       },
     ],
   },
-  // {
-  //   name: 'list.table-list',
-  //   icon: 'table',
-  //   path: '/list',
-  //   component: './TableList',
-  // },
   {
     name: 'list.table-answer',
     icon: 'table',
     path: '/TableAnswers',
     component: './TableAnswers',
   },
-  // {
-  //   path: '/',
-  //   redirect: '/welcome',
-  // },
   {
     path: '*',
     component: './404',
