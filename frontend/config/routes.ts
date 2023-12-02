@@ -20,34 +20,23 @@ export default [
       },
     ],
   },
-  // {
-  //   path: '/welcome',
-  //   name: 'welcome',
-  //   icon: 'smile',
-  //   component: './Welcome',
-  // },
   {
     path: '/',
     name: 'list.table-questionnaires',
     icon: 'read',
     component: './Table',
-    // routes: [
-    //   {
-    //     path: '/questionnaires/new',
-    //     component: './Questionnaires',
-    //   },
-    // ],
   },
+  // {
+  //   path: '/questionnaires/new',
+  //   component: '/Questionnaires',
+  // },
+  // {
+  //   name: 'admin.EditQuestionnaires',
+  //   hideInMenu: true,
+  //   path: '/questionnaires/:id',
+  //   component: '/Questionnaires'
+  // },
   {
-    path: '/questionnaires/new',
-    component: '/Questionnaires',
-  },
-  {
-    name: 'admin.EditQuestionnaires',
-    hideInMenu: true,
-    path: '/questionnaires/:id',
-    component: '/Questionnaires'
-  },{
     name: 'admin.Questionnaires',
     hideInMenu: true,
     path: '/answers-questions/:id',
