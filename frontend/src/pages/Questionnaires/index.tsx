@@ -1,6 +1,6 @@
 import store from '@/redux/store';
 import { Provider } from 'react-redux';
-import QuestionnairesData from './QuestionnairesData';
+import QuestionnairesData from "@/components/QuestionnairesData";
 
 const Questionnaires = () => {
   return (

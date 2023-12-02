@@ -1,3 +1,5 @@
+import Question from '@/pages/Question';
+import Quiz from '@/pages/Quiz';
 import ViewQuestionnaire from '@/pages/ViewQuestionnaire';
 import { save, selectQuiz } from '@/redux/slicer/Quiz';
 import { createQuiz, getQuizId, updateQuiz } from '@/services/ant-design-pro/api';
@@ -8,8 +10,6 @@ import { Content } from 'antd/lib/layout/layout';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIntl } from 'umi';
-import Question from '../Question';
-import Quiz from '../Quiz';
 
 const QuestionnairesData: React.FC = () => {
   const t = useIntl();
@@ -19,6 +19,7 @@ const QuestionnairesData: React.FC = () => {
   const { quiz } = useSelector(selectQuiz);
   const quizId = useParams();
   console.log(quiz);
+
   async function newQuiz() {
     try {
       const { data } = await createQuiz(quiz);
