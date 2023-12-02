@@ -36,12 +36,12 @@ export default [
   //   path: '/questionnaires/:id',
   //   component: '/Questionnaires'
   // },
-  {
-    name: 'admin.Questionnaires',
-    hideInMenu: true,
-    path: '/answers-questions/:id',
-    component: '/TableListAnswersQuestions',
-  },
+  // {
+  //   name: 'admin.Questionnaires',
+  //   hideInMenu: true,
+  //   path: '/answers-questions/:id',
+  //   component: '/TableListAnswersQuestions',
+  // },
   // {
   //   path: '/questionnaires/:id',
   //   component: './Questionnaires/QuestionnairesData',
