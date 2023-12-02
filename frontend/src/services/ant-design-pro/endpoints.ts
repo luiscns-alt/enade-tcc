@@ -1,4 +1,4 @@
-const BASE_URL: string = 'http://localhost:3000';
+const BASE_URL: string = 'https://api-enade-nestjs-prisma-production.up.railway.app';
 
 // Endpoints
 const QUIZ_ENDPOINT: string = `${BASE_URL}/quiz`;
