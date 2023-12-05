@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TOKEN_KEY } from '@hooks/useAuth';
-const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+const apiUrl = 'https://api-enade-nestjs-prisma-production.up.railway.app';
 
 const api = axios.create({
   baseURL: apiUrl,

@@ -29,7 +29,7 @@ export function Header({ userName, title }: HeaderProps) {
         <Info>
           <Photo
             source={{
-              uri: 'https://avatars.githubusercontent.com/u/82232848?v=4',
+              uri: 'https://avatars.githubusercontent.com/u/82232848?s=96&v=4',
             }}
           />
           <InfoView>
