@@ -53,6 +53,8 @@ declare namespace API {
     password?: string;
     autoLogin?: boolean;
     type?: string;
+    role?: string;
+    name?: string;
   };
 
   type LoginResult = {
@@ -71,6 +73,24 @@ declare namespace API {
       updatedAt: Date;
     };
   };
+
+  interface RegisterResult {
+    success: boolean;
+    message: string;
+    data: UserRegister;
+  }
+
+  interface UserRegister {
+    id: string;
+    login: string;
+    password: string;
+    name: string;
+    surname: string | null;
+    role: string;
+    createdAt: string;
+    updatedAt: string;
+    gamificationId: string | null;
+  }
 
   type NoticeIconItem = {
     id?: string;

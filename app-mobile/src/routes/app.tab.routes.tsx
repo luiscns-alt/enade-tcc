@@ -48,15 +48,15 @@ export function AppTabRoutes() {
           ),
         }}
       />
-      <Screen
-        name='Cadastrar'
-        component={Register}
-        options={{
-          tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name='pie-chart' size={size} color={color} />
-          ),
-        }}
-      />
+      {/*<Screen*/}
+      {/*  name="Cadastrar"*/}
+      {/*  component={Register}*/}
+      {/*  options={{*/}
+      {/*    tabBarIcon: ({ size, color }) => (*/}
+      {/*      <MaterialIcons name="pie-chart" size={size} color={color} />*/}
+      {/*    ),*/}
+      {/*  }}*/}
+      {/*/>*/}
     </Navigator>
   );
 }

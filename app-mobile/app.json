@@ -1,17 +1,35 @@
 {
   "expo": {
-    "name": "enade",
-    "slug": "enade",
+    "name": "enade-ques",
+    "slug": "enade-ques",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
-    "plugins": [
-      "expo-localization"
-    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.luis.carlos.enadeques"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
     "extra": {
       "eas": {
-        "projectId": "3dfb9720-7a8e-4830-9e05-1ee0e51856b4"
+        "projectId": "dcc8b3d2-c395-4183-8cdb-c80f853f8b43"
       }
     }
   }

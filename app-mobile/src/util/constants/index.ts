@@ -6,7 +6,7 @@ export const API_ENDPOINTS = {
   QUIZ_RESPONSE: '/quiz-response',
   USER_ME: '/user/me',
   LOGIN: '/auth/login',
-  REGISTER: '/user/register',
+  REGISTER: '/auth/register',
   FETCH_QUIZ_RESPONSE_USER: (userId: string) => `/quiz-response/user/${userId}`,
   QUIZ_RESPONSE_BY_ID_USER: (id: string) => `/quiz-response/${id}`,
 };

@@ -22,46 +22,51 @@ export default [
   },
   {
     path: '/',
+    access: 'canAdmin',
     name: 'list.table-questionnaires',
     icon: 'read',
     component: './Table',
   },
   {
     path: '/questionnaires/new',
+    access: 'canAdmin',
     component: './Questionnaires',
   },
   {
     name: 'admin.EditQuestionnaires',
+    access: 'canAdmin',
     hideInMenu: true,
     path: '/questionnaires/:id',
     component: './Questionnaires',
   },
   {
     name: 'admin.Questionnaires',
+    access: 'canAdmin',
     hideInMenu: true,
     path: '/answers-questions/:id',
     component: './TableListAnswersQuestions',
   },
-  {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    routes: [
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
-      },
-    ],
-  },
-  {
-    name: 'list.table-answer',
-    icon: 'table',
-    path: '/TableAnswers',
-    component: './TableAnswers',
-  },
+  // {
+  //   path: '/admin',
+  //   name: 'admin',
+  //   icon: 'crown',
+  //   access: 'canAdmin',
+  //   routes: [
+  //     {
+  //       path: '/admin/sub-page',
+  //       name: 'sub-page',
+  //       icon: 'smile',
+  //       component: './Welcome',
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: 'list.table-answer',
+  //   access: 'canAdmin',
+  //   icon: 'table',
+  //   path: '/TableAnswers',
+  //   component: './TableAnswers',
+  // },
   {
     path: '*',
     component: './404',

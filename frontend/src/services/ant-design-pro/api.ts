@@ -3,6 +3,7 @@
 import {
   ANSWER_ENDPOINT,
   AUTH_LOGIN_ENDPOINT,
+  AUTH_REGISTER_ENDPOINT,
   CATEGORIES_ENDPOINT,
   QUESTION_ENDPOINT,
   QUIZ_ENDPOINT,
@@ -33,13 +34,24 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
+/** 登录接口 POST /auth/register */
+export async function register(body: API.LoginParams, options?: { [key: string]: any }) {
+  return request<API.RegisterResult>(AUTH_REGISTER_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 export const TOKEN_KEY = '@userToken';
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function getUser(options?: { [key: string]: any }) {
   const token = getToken();
-  console.log(getToken());
   return request<API.CurrentUser>(USER_ME_ENDPOINT, {
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` },

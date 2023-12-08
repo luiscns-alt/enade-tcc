@@ -71,4 +71,16 @@ export default {
   'pages.admin.RegisterQuestionnaires': 'Cadastra Questionários',
   'pages.questions.listOfQuestions': 'Lista de Questões',
   'pages.questions.newQuestion': 'Nova Questão',
+  'pages.register.accountLogin.tab': 'Cadastrar conta',
+  'pages.register.username.placeholder': 'Nome',
+  'pages.register.username.required': 'Por favor insira seu nome!',
+  'pages.register.mail.placeholder': 'E-mail',
+  'pages.register.mail.required': 'Por favor insira seu e-mail!',
+  'pages.register.password.placeholder': 'Confirma Senha',
+  'pages.register.password.required': 'Por favor insira sua senha!',
+  'pages.register.failure': 'Cadastro falhou, por favor tente novamente!',
+  'pages.register.fail': 'Email Já Registrado!!',
+  'pages.register.info':
+    'O email que você tentou registrar já está associado a uma conta existente.',
+  'pages.register.password.error': 'As senhas não coincidem!',
 };

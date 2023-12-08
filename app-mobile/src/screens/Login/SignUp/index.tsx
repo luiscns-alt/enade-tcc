@@ -19,6 +19,8 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAuth } from '@hooks/useAuth';
 import useLocale from '@hooks/use-locale';
+import Toast from 'react-native-toast-message';
+import { log } from 'expo-updates/build-cli/utils/log';
 
 export interface RegisterFormData {
   name: string;
@@ -48,14 +50,13 @@ export function SignUp() {
     resolver: yupResolver(schema),
   });
 
-  function handleRegister(form: RegisterFormData) {
+  async function handleRegister(form: RegisterFormData) {
     const data = {
       name: form.name,
-      email: form.email,
+      login: form.email,
       password: form.password,
-      confirm: form.confirmPassword,
     };
-    registerUser(data);
+    await registerUser(data);
   }
 
   function handleLogin() {

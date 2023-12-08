@@ -42,7 +42,6 @@ export function Register() {
       amount: form.amount,
       category: category.key,
     };
-    console.log(data);
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
