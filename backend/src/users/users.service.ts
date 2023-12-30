@@ -45,7 +45,7 @@ export class UsersService {
     }
 
     // Define the role - use the provided role if it exists, otherwise use 'CLIENT'
-    const role = userDto.role ? userDto.role : 'CLIENT';
+    const role = userDto.role ? ('ADMIN' as const) : ('CLIENT' as const);
 
     const data = {
       ...userDto,

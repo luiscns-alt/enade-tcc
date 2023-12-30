@@ -63,6 +63,46 @@ export class QuizService {
     return status;
   }
 
+  async findAllByUser(
+    userId: string,
+    title?: string,
+    order?: { [key: string]: 'asc' | 'desc' },
+  ): Promise<QuizFind> {
+    let status: QuizFind = {
+      success: true,
+      message: 'QUIZ_FIND_ALL_BY_USER_SUCCESS',
+    };
+
+    const whereCondition: any = {
+      userId: userId,
+      published: true,
+    };
+
+    if (title) {
+      whereCondition.title = { contains: title };
+    }
+
+    try {
+      status.data = await this.prisma.quiz.findMany({
+        where: whereCondition,
+        orderBy: [
+          { title: order?.title || 'asc' },
+          { description: order?.description || 'asc' },
+          { published: order?.publicado || 'asc' },
+        ],
+      });
+      status.totalItemCount = await this.prisma.quiz.count({
+        where: whereCondition,
+      });
+    } catch (error) {
+      status = {
+        success: false,
+        message: error,
+      };
+    }
+    return status;
+  }
+
   async findOne(id: string): Promise<QuizStatus> {
     let status: QuizStatus = {
       success: true,

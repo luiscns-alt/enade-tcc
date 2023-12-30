@@ -54,6 +54,22 @@ export class QuizController {
   @UseGuards(JwtAuthGuard)
   @ApiSecurity('access-key')
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/by-user/:userId')
+  async findAllByUser(
+    @Param('userId') userId: string,
+    @Query('title') title?: string,
+    @Query('order') order?: { [key: string]: 'asc' | 'desc' },
+  ) {
+    const result = await this.quizService.findAllByUser(userId, title, order);
+    if (!result.success) {
+      throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
+    }
+    return result;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiSecurity('access-key')
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('drafts')
   findDrafts() {
     return this.quizService.findDrafts();
