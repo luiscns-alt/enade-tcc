@@ -25,9 +25,20 @@ export function useListQuiz() {
     }
   }
 
+  async function refreshFetchData() {
+    try {
+      const response = await api.get(API_ENDPOINTS.FETCH_ALL_QUESTIONS);
+      const { data } = response.data;
+      setQuizzes(data);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    }
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
 
-  return { quizzes, error, loading, user };
+  return { quizzes, error, loading, user, refreshFetchData };
 }
