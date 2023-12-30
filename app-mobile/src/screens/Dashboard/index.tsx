@@ -52,7 +52,11 @@ export function Dashboard() {
             paddingBottom: getBottomSpace(),
           }}
           refreshControl={
-            <RefreshControl colors={["#8E7DBE"]} refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              colors={['#8E7DBE']}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
           }
         />
       </Transactions>
