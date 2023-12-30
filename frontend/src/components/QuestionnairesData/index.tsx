@@ -3,7 +3,7 @@ import Quiz from '@/pages/Quiz';
 import ViewQuestionnaire from '@/pages/ViewQuestionnaire';
 import { save, selectQuiz } from '@/redux/slicer/Quiz';
 import { createQuiz, getQuizId, updateQuiz } from '@/services/ant-design-pro/api';
-import { history, useParams } from '@@/exports';
+import { history, useModel, useParams } from '@@/exports';
 import { PageContainer } from '@ant-design/pro-components';
 import { Button, Form, message, Steps } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
@@ -18,11 +18,12 @@ const QuestionnairesData: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const { quiz } = useSelector(selectQuiz);
   const quizId = useParams();
-  console.log(quiz);
+  const { initialState } = useModel('@@initialState');
 
   async function newQuiz() {
     try {
-      const { data } = await createQuiz(quiz);
+      const parseQuiz = { ...quiz, userId: initialState?.currentUser?.id };
+      const { data } = await createQuiz(parseQuiz);
       dispatch(save({ ...quiz, id: data.id }));
       message.success(t.formatMessage({ id: 'app.created.success' }));
       setCurrent(current + 1);
@@ -37,7 +38,8 @@ const QuestionnairesData: React.FC = () => {
 
   async function editQuiz() {
     try {
-      const { data } = await updateQuiz(quiz);
+      const parseQuiz = { ...quiz, userId: initialState?.currentUser?.id };
+      const { data } = await updateQuiz(parseQuiz);
       dispatch(save({ ...data }));
       message.success(t.formatMessage({ id: 'app.update.success' }));
       setCurrent(current + 1);
@@ -86,7 +88,7 @@ const QuestionnairesData: React.FC = () => {
       content: <Question />,
     },
     {
-      title: 'Finalizar',
+      title: t.formatMessage({ id: 'app.generic.step.finish' }),
       content: <ViewQuestionnaire />,
     },
   ];

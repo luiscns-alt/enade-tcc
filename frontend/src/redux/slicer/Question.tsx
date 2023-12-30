@@ -9,6 +9,9 @@ export const slice = createSlice({
     save(state: any, { payload }: any) {
       return { ...state, question: payload };
     },
+    clear(state) {
+      return { ...state, question: {} };
+    },
   },
 });
 

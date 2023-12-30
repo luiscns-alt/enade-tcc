@@ -32,18 +32,24 @@ const handleAdd = async (fields: any, quiz: { id: any }, translation: any) => {
       image: null,
     };
     const result = await createQuestion(questionData);
+    console.log(result);
     if (result.success) {
-      for (let i = 0; i < fields.options.length; i++) {
-        fields.options[i].questionId = result.data.id;
-      }
-      const res = await createOption(fields.options);
-      if (res.success) {
+      if (result.data.type === 'DISCURSIVE') {
         message.success(translation.formatMessage({ id: 'app.created.success' }));
+        return true;
       } else {
-        message.error(
-          translation.formatMessage({ id: 'app.updated.fail' }) + ' - ' + res.data.message,
-        );
-        return false;
+        for (let i = 0; i < fields.options.length; i++) {
+          fields.options[i].questionId = result.data.id;
+        }
+        const res = await createOption(fields.options);
+        if (res.success) {
+          message.success(translation.formatMessage({ id: 'app.created.success' }));
+        } else {
+          message.error(
+            translation.formatMessage({ id: 'app.updated.fail' }) + ' - ' + res.data.message,
+          );
+          return false;
+        }
       }
     } else {
       message.error(
@@ -78,22 +84,27 @@ const handleUpdate = async (translation: any, fields: any, currentRow?: API.Ques
     };
     const res = await updateQuestion(questionDetails);
     if (res.success) {
-      let allUpdatesSuccess = true;
-      if (merged && merged.answers) {
-        for (let i = 0; i < merged?.answers.length; i++) {
-          const option = merged?.answers[i];
-          const response = await updateOption(option);
-          if (!response.success) {
-            allUpdatesSuccess = false;
-            message.error(
-              translation.formatMessage({ id: 'app.updated.fail' }) + ' - ' + response.message,
-            );
-            return false;
+      if (res.data.type === 'DISCURSIVE') {
+        message.success(translation.formatMessage({ id: 'app.created.success' }));
+        return true;
+      } else {
+        let allUpdatesSuccess = true;
+        if (merged && merged.answers) {
+          for (let i = 0; i < merged?.answers.length; i++) {
+            const option = merged?.answers[i];
+            const response = await updateOption(option);
+            if (!response.success) {
+              allUpdatesSuccess = false;
+              message.error(
+                translation.formatMessage({ id: 'app.updated.fail' }) + ' - ' + response.message,
+              );
+              return false;
+            }
           }
         }
-      }
-      if (allUpdatesSuccess) {
-        message.success(translation.formatMessage({ id: 'app.update.success' }));
+        if (allUpdatesSuccess) {
+          message.success(translation.formatMessage({ id: 'app.update.success' }));
+        }
       }
     } else {
       message.error(translation.formatMessage({ id: 'app.updated.fail' }) + ' - ' + res.message);
@@ -112,7 +123,6 @@ const handleRemove = async (t: any, selectedRows: API.QuestionDTO[]) => {
   try {
     hideLoadingMessage();
     const ids = getIds(selectedRows, 'id');
-    console.log(ids);
     const res = await deleteQuestions(ids);
     if (res.success) {
       message.success(t.formatMessage({ id: 'app.created.success' }));

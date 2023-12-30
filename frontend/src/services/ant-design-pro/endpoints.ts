@@ -3,6 +3,7 @@ const BASE_URL: string = 'https://api-enade-nestjs-prisma-production.up.railway.
 
 // Endpoints
 const QUIZ_ENDPOINT: string = `${BASE_URL}/quiz`;
+const QUIZ_BY_USER_ENDPOINT: string = `${BASE_URL}/quiz/by-user`;
 const QUESTION_ENDPOINT: string = `${BASE_URL}/question`;
 const ANSWER_ENDPOINT: string = `${BASE_URL}/answer`;
 const CATEGORIES_ENDPOINT = `${BASE_URL}/categories`;
@@ -14,6 +15,7 @@ const QUIZ_RESPONSE_GET_ENDPOINT = `${BASE_URL}/quiz-response/quiz`;
 
 export {
   QUIZ_ENDPOINT,
+  QUIZ_BY_USER_ENDPOINT,
   QUESTION_ENDPOINT,
   ANSWER_ENDPOINT,
   CATEGORIES_ENDPOINT,

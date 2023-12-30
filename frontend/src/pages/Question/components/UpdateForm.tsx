@@ -43,13 +43,18 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         fieldProps={{ autoSize: true }}
       />
 
-      <Form.Item label="Tipo" name={['type']} rules={[{ required: true }]} labelCol={{ span: 6 }}>
+      <Form.Item
+        label={translation.formatMessage({ id: 'component.quiz.type' })}
+        name={['type']}
+        rules={[{ required: true }]}
+        labelCol={{ span: 6 }}
+      >
         <Select>
-          <Select.Option value="DISCURSIVE">
-            {translation.formatMessage({ id: 'app.generic.type.label.discursive' })}
+          <Select.Option value="DISCURSIVE" disabled>
+            {translation.formatMessage({ id: 'component.quiz.category.DISCURSIVE' })}
           </Select.Option>
           <Select.Option value="OBJECTIVE">
-            {translation.formatMessage({ id: 'app.generic.type.label.objective' })}
+            {translation.formatMessage({ id: 'component.quiz.category.OBJECTIVE' })}
           </Select.Option>
         </Select>
       </Form.Item>

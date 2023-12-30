@@ -40,7 +40,6 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
 
     return { answer, question, isCorrect };
   });
-  console.log(combinedData);
   const CircleIndicator = ({ value }) => {
     return (
       <Badge title={'sds'} status={value ? 'success' : 'error'} text={value ? 'Certo' : 'Errado'}>

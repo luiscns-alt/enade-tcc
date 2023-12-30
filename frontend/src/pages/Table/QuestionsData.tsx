@@ -1,5 +1,5 @@
 import { clear } from '@/redux/slicer/Quiz';
-import { deleteQuestionnaires, getQuestionnaires } from '@/services/ant-design-pro/api';
+import { deleteQuestionnaires, getQuestionnairesByUser } from '@/services/ant-design-pro/api';
 import { getIds } from '@/utils/functions';
 import { EditOutlined, FolderViewOutlined, PlusOutlined } from '@ant-design/icons';
 import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
@@ -9,7 +9,7 @@ import { Button, message, Tooltip } from 'antd';
 import 'antd/dist/antd.css';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { history, useIntl } from 'umi';
+import { history, useIntl, useModel } from 'umi';
 import DeleteConfirm from './DeleteConfirm';
 
 const handleRemove = async (t: any, selectedRows: API.QuizDTO[]) => {
@@ -38,8 +38,7 @@ const QuestionsData: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [searchTerm, handleSearchTerm] = useState<string>('');
   const [selectedRowsState, setSelectedRows] = useState<API.QuizDTO[]>([]);
-  // const { initialState } = useModel('@@initialState');
-
+  const { initialState } = useModel('@@initialState');
   const handleClearStore = async () => {
     dispatch(clear());
   };
@@ -102,7 +101,6 @@ const QuestionsData: React.FC = () => {
             size="large"
             onClick={async () => {
               await handleClearStore();
-              console.log(record);
               history.push({
                 pathname: `/answers-questions/${record.id}`,
                 search: `?id=${record.id}`,
@@ -140,6 +138,7 @@ const QuestionsData: React.FC = () => {
               type="primary"
               key="primary"
               onClick={async () => {
+                await handleClearStore();
                 history.push({
                   pathname: '/questionnaires/new',
                 });
@@ -153,7 +152,11 @@ const QuestionsData: React.FC = () => {
         search={false}
         request={async (params, sort, filter) => {
           console.log(params, sort, filter);
-          const result = await getQuestionnaires(searchTerm, sort);
+          const result = await getQuestionnairesByUser(
+            initialState?.currentUser?.id,
+            searchTerm,
+            sort,
+          );
 
           return {
             data: result.data,

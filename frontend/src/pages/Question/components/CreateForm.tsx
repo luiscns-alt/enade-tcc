@@ -17,26 +17,25 @@ const CreateForm: React.FC<CreateFormProps> = ({
   onFinish,
   onVisibleChange,
 }) => {
-  const intl = useIntl();
-  const [option, setOption] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const t = useIntl();
+  const [option, setOption] = useState<string>('OBJECTIVE');
   const [checkboxValues, setCheckboxValues] = useState<boolean[]>(Array(6).fill(false));
-  const isObjectiveOption = (value: any) => value === 'OBJECTIVE';
+  const isObjectiveOption = (value: string) => value === 'OBJECTIVE';
 
   const OptionRow: React.FC<{ index: number }> = ({ index }) => {
     const placeholders = [
-      'Digite a primeira opção',
-      'Digite a segunda opção',
-      'Digite a terceira opção',
-      'Digite a quarta opção',
-      'Digite a quinta opção',
-      'Digite a sexta opção',
+      t.formatMessage({ id: 'component.quiz.option.placeholder1' }),
+      t.formatMessage({ id: 'component.quiz.option.placeholder2' }),
+      t.formatMessage({ id: 'component.quiz.option.placeholder3' }),
+      t.formatMessage({ id: 'component.quiz.option.placeholder4' }),
+      t.formatMessage({ id: 'component.quiz.option.placeholder5' }),
+      t.formatMessage({ id: 'component.quiz.option.placeholder6' }),
     ];
 
-    const handleCheckboxChange = (isChecked: boolean, index: number) => {
+    const handleCheckboxChange = (isChecked: boolean, i: number) => {
       const newCheckboxValues = Array(5).fill(false);
       if (isChecked) {
-        newCheckboxValues[index] = true;
+        newCheckboxValues[i] = true;
       }
       setCheckboxValues(newCheckboxValues);
     };
@@ -51,7 +50,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
             rules={[
               {
                 required: true,
-                message: 'Este campo é obrigatório!',
+                message: t.formatMessage({ id: 'component.quiz.field.required' }),
               },
             ]}
           />
@@ -72,7 +71,7 @@ const CreateForm: React.FC<CreateFormProps> = ({
 
   return (
     <ModalForm
-      title="Nova Questão"
+      title={t.formatMessage({ id: 'pages.questions.newQuestion' })}
       width="700px"
       formRef={formRef}
       visible={modalVisible}
@@ -81,24 +80,34 @@ const CreateForm: React.FC<CreateFormProps> = ({
     >
       <ProFormTextArea
         name="question"
-        label="Título"
-        placeholder="Digite o Título"
+        label={t.formatMessage({ id: 'component.quiz.title' })}
+        placeholder={t.formatMessage({ id: 'component.quiz.title.placeholder' })}
         rules={[
           {
             required: true,
-            message: 'Informe o título',
+            message: t.formatMessage({ id: 'component.quiz.title.inform' }),
           },
         ]}
       />
-      <Form.Item label="Tipo" name={['type']} rules={[{ required: true }]} labelCol={{ span: 6 }}>
+      <Form.Item
+        label={t.formatMessage({ id: 'component.quiz.type' })}
+        name={['type']}
+        rules={[{ required: true, message: t.formatMessage({ id: 'component.quiz.type.inform' }) }]}
+        labelCol={{ span: 6 }}
+      >
         <Select onChange={(e) => setOption(e)}>
-          <Select.Option value="DISCURSIVE">Discursiva</Select.Option>
-          <Select.Option value="OBJECTIVE">Múltipla Escolha</Select.Option>
+          <Select.Option value="DISCURSIVE" disabled>
+            {t.formatMessage({ id: 'component.quiz.category.DISCURSIVE' })}
+          </Select.Option>
+          <Select.Option value="OBJECTIVE">
+            {t.formatMessage({ id: 'component.quiz.category.OBJECTIVE' })}
+          </Select.Option>
         </Select>
       </Form.Item>
+
       {isObjectiveOption(option) && (
         <>
-          <h4>Marque a caixa ao lado se a opção for correta</h4>
+          <h4>{t.formatMessage({ id: 'component.quiz.box.inform' })}</h4>
           {Array(5)
             .fill(0)
             .map((_, index) => (

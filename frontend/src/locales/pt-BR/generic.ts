@@ -47,4 +47,5 @@ export default {
 
   'app.generic.step.quiz': 'Questionário',
   'app.generic.step.question': 'Questão',
+  'app.generic.step.finish': 'Finalizar',
 };

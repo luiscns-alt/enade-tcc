@@ -1,32 +1,32 @@
 import { message } from 'antd';
 
 export function mergeObjects(initialState: API.QuestionDTO, field: API.Question) {
+  const { id, image, quizId } = initialState;
+
   const mergedObject: API.QuestionDTO = {
-    id: initialState.id,
-    title: initialState.title,
-    type: initialState.type,
-    image: initialState.image,
-    quizId: initialState.quizId,
-    answers: [],
+    id,
+    title: field.title,
+    type: field.type,
+    image,
+    quizId,
+    answers:
+      field.type === 'OBJECTIVE'
+        ? initialState.answers?.reduce((acc, answer, i) => {
+            const answerKey = `answer_${i}`;
+            const isCorrectKey = `isCorrect_${i}`;
+
+            if (answerKey in field && isCorrectKey in field) {
+              acc.push({
+                id: answer.id,
+                text: field[answerKey],
+                isCorrect: field[isCorrectKey],
+                questionId: id,
+              });
+            }
+            return acc;
+          }, [] as API.AnswerDTO[])
+        : [],
   };
-
-  if (initialState && initialState.answers) {
-    for (let i = 0; i < initialState.answers.length; i++) {
-      const answerKey = `answer_${i}`;
-      const isCorrectKey = `isCorrect_${i}`;
-
-      if (mergedObject && mergedObject.answers) {
-        if (field[answerKey] !== undefined && field[isCorrectKey] !== undefined) {
-          mergedObject.answers.push({
-            id: initialState.answers[i].id,
-            text: field[answerKey],
-            isCorrect: field[isCorrectKey],
-            questionId: initialState.id,
-          });
-        }
-      }
-    }
-  }
 
   return mergedObject;
 }
@@ -53,7 +53,7 @@ export const showErrorMessage = async (
 };
 
 export const getIds = <T>(items: T[], key: keyof T): string[] => {
-  return items.map((item) => `'${item[key]}'`);
+  return items.map((item) => `${item[key]}`);
 };
 
 export const formatDate = (dataStr: string) => {

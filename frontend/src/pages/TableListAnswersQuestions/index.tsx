@@ -77,7 +77,6 @@ const TableListAnswersQuestions: React.FC = () => {
         }}
         search={false}
         request={async (params, sort, filter) => {
-          console.log(params, sort, filter);
           const result = await getQuizAnswer(quizId.id);
 
           return {

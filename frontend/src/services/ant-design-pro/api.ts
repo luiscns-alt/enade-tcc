@@ -5,7 +5,7 @@ import {
   AUTH_LOGIN_ENDPOINT,
   AUTH_REGISTER_ENDPOINT,
   CATEGORIES_ENDPOINT,
-  QUESTION_ENDPOINT,
+  QUESTION_ENDPOINT, QUIZ_BY_USER_ENDPOINT,
   QUIZ_ENDPOINT,
   QUIZ_RESPONSE_ENDPOINT,
   QUIZ_RESPONSE_GET_ENDPOINT,
@@ -73,11 +73,27 @@ export async function getQuestionnaires(
   });
 }
 
-export async function deleteQuestionnaires(options?: { [key: string]: any }) {
+export async function getQuestionnairesByUser(
+  userId: string | undefined,
+  title?: string,
+  order?: any,
+  options?: { [key: string]: any },
+) {
+  const token = getToken();
+  return request<API.QuestionsApiResponse>(`${QUIZ_BY_USER_ENDPOINT}/${userId}`, {
+    method: 'GET',
+    params: { title, order },
+    headers: { Authorization: `Bearer ${token}` },
+    ...(options || {}),
+  });
+}
+
+export async function deleteQuestionnaires(ids: string[], options?: { [key: string]: any }) {
   const token = getToken();
   return request<API.DeleteApiResponse>(QUIZ_ENDPOINT, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` },
+    data: { ids },
     ...(options || {}),
   });
 }
@@ -104,12 +120,13 @@ export async function createQuiz(body: API.LoginParams, options?: { [key: string
   });
 }
 
-export async function deleteQuestions(options?: { [key: string]: any }) {
+export async function deleteQuestions(ids: string[], options?: { [key: string]: any }) {
   const token = getToken();
   return request<API.DeleteApiResponse>(QUESTION_ENDPOINT, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` },
     ...(options || {}),
+    data: { ids },
   });
 }
 
