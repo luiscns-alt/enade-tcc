@@ -297,4 +297,21 @@ declare namespace API {
     success?: boolean;
     total: number;
   }
+
+  interface AnswerDTO {
+    id: string;
+    text: string;
+    isCorrect: boolean;
+  }
+
+  interface QuestionDTO {
+    id: string;
+    title: string;
+  }
+
+  interface QuizItem {
+    answer: AnswerDTO;
+    question: QuestionDTO;
+    isCorrect: AnswerDTO[];
+  }
 }

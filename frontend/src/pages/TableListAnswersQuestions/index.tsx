@@ -1,10 +1,8 @@
-import DeleteConfirm from '@/pages/Table/DeleteConfirm';
 import CreateForm from '@/pages/TableAnswers/components/createForm';
 import { getQuizAnswer } from '@/services/ant-design-pro/api';
 import { FormattedMessage, useIntl, useParams } from '@@/exports';
 import { PageContainer } from '@ant-design/pro-components';
 import { ProFormInstance } from '@ant-design/pro-form';
-import { FooterToolbar } from '@ant-design/pro-layout';
 import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import React, { useRef, useState } from 'react';
 
@@ -18,7 +16,6 @@ const TableListAnswersQuestions: React.FC = () => {
   const quizId = useParams();
   const actionRef = useRef<ActionType>();
   const createFormRef = useRef<ProFormInstance>();
-  const [selectedRowsState, setSelectedRows] = useState<API.QuizData[]>([]);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<API.QuizData>();
 
@@ -32,7 +29,7 @@ const TableListAnswersQuestions: React.FC = () => {
       width: '25%',
     },
     {
-      title: 'Nome do usuário',
+      title: t.formatMessage({ id: 'app.generic.answers.columns.surveyName' }),
       dataIndex: 'user',
       sorter: true,
       defaultSortOrder: 'ascend',
@@ -40,14 +37,14 @@ const TableListAnswersQuestions: React.FC = () => {
       render: (user: any) => [<div key={'user'}>{user.name}</div>],
     },
     {
-      title: 'Título do Questionário',
+      title: t.formatMessage({ id: 'app.generic.answers.columns.questionnaireTitle' }),
       dataIndex: 'quiz',
       sorter: true,
       width: '35%',
       render: (quiz: any) => [<div key={'quiz'}>{quiz.title}</div>],
     },
     {
-      title: 'Ações',
+      title: t.formatMessage({ id: 'app.generic.actions' }),
       dataIndex: 'option',
       valueType: 'option',
       width: '5%',
@@ -77,6 +74,7 @@ const TableListAnswersQuestions: React.FC = () => {
         }}
         search={false}
         request={async (params, sort, filter) => {
+          console.log(params, sort, filter);
           const result = await getQuizAnswer(quizId.id);
 
           return {
@@ -86,37 +84,8 @@ const TableListAnswersQuestions: React.FC = () => {
           };
         }}
         columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
-        }}
       />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              {t.formatMessage({ id: 'app.generic.selected' })}
-              <a
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                {selectedRowsState.length}
-              </a>
-              {t.formatMessage({ id: 'app.generic.item' })} &nbsp;&nbsp;
-            </div>
-          }
-        >
-          <DeleteConfirm
-            onConfirm={async () => {
-              // await handleRemove(t, selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          />
-        </FooterToolbar>
-      )}
+
       <CreateForm
         initialValues={currentRow}
         formRef={createFormRef}
