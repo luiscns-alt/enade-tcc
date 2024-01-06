@@ -40,3 +40,11 @@ expo start
 ```
 
 Isto irá abrir uma página no seu navegador contendo um QR Code. Para visualizar o aplicativo no seu dispositivo móvel, escaneie o QR Code utilizando o aplicativo Expo Go. Se tiver um emulador instalado no seu computador, você pode rodar o aplicativo diretamente nele.
+
+## Construir o Aplicativo
+
+Para construir o aplicativo, execute o seguinte comando no terminal:
+
+```shell
+npm run build
+```
