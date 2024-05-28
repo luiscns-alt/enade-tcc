@@ -33,7 +33,8 @@
     "CONGRATULATIONS": "Congratulations",
     "OOPS": "Oops!",
     "REPEAT_TEST": "Repeat Test",
-    "GO_BACK_TO_HOME_SCREEN": "Go Back to Home Screen"
+    "GO_BACK_TO_HOME_SCREEN": "Go Back to Home Screen",
+    "NEXT": "Next"
   },
   "ERROR": {
     "DATA_FETCH_ERROR": "An error occurred while fetching the data. Please try again.",

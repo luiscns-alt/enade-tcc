@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.luis.carlos.enadeques"
     },
     "android": {
       "adaptiveIcon": {
@@ -31,6 +32,10 @@
       "eas": {
         "projectId": "dcc8b3d2-c395-4183-8cdb-c80f853f8b43"
       }
-    }
+    },
+    "plugins": [
+      "expo-font",
+      "expo-localization"
+    ]
   }
 }

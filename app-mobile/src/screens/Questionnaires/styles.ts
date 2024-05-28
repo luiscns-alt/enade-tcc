@@ -1,4 +1,3 @@
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
@@ -52,7 +51,7 @@ export const ContainerOptions = styled.View``;
 export const TextOptions = styled.Text`
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(20)}px;
+  font-size: ${RFValue(16)}px;
 `;
 
 export const ContainerOptionsDiv = styled.View`
@@ -179,12 +178,12 @@ export const Header = styled.View`
   align-items: center;
 
   position: absolute;
-  margin-top: ${getStatusBarHeight() + 18}px;
+  margin-top: ${48}px;
   margin-left: 20px;
 `;
 
 export const Divider = styled.View`
-  margin-top: ${getStatusBarHeight() + 32}px;
+  margin-top: ${64}px;
 `;
 
 export const Content = styled.ScrollView.attrs({

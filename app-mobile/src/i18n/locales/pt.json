@@ -33,7 +33,8 @@
     "CONGRATULATIONS": "Parabéns!",
     "OOPS": "Oops!",
     "REPEAT_TEST": "Repetir teste",
-    "GO_BACK_TO_HOME_SCREEN": "Voltar a tela inicial"
+    "GO_BACK_TO_HOME_SCREEN": "Voltar a tela inicial",
+    "NEXT": "Próximo"
   },
   "ERROR": {
     "DATA_FETCH_ERROR": "Ocorreu um erro ao buscar os dados. Por favor, tente novamente.",

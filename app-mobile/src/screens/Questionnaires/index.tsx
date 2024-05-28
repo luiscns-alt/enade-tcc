@@ -221,7 +221,7 @@ export function Questionnaires() {
     if (showNextButton) {
       return (
         <NextButton onPress={handleNext}>
-          <TextNextButton>Next</TextNextButton>
+          <TextNextButton>{t('QUESTIONNAIRES.NEXT')}</TextNextButton>
         </NextButton>
       );
     } else {
