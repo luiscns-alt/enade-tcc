@@ -197,7 +197,6 @@ export function Questionnaires() {
             disabled={isOptionsDisabled}
             key={option.id}
           >
-            {/* <TouchableOpacity> */}
             <ContainerOptionsDiv>
               <TextOptions>{option.text}</TextOptions>
               {/* Show check or cross icon on correct answer */}

@@ -52,13 +52,14 @@ export const TextOptions = styled.Text`
   color: ${({ theme }) => theme.colors.title};
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(16)}px;
+  flex-shrink: 1;
 `;
 
 export const ContainerOptionsDiv = styled.View`
   border-width: 3px;
   border-color: ${({ theme }) => theme.colors.primary + '40'};
   background-color: ${({ theme }) => theme.colors.primary + '20'};
-  height: ${RFValue(60)}px;
+  min-height: ${RFValue(60)}px;
   border-radius: ${RFValue(20)}px;
   flex-direction: row;
   align-items: center;
