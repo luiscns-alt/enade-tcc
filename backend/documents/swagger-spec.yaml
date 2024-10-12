@@ -1,0 +1,854 @@
+openapi: 3.0.0
+paths:
+  /auth/register:
+    post:
+      operationId: AuthController_register
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_0
+        - auth
+  /auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_0
+  /user/me:
+    get:
+      operationId: UsersController_me
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: &ref_1
+        - user
+      security:
+        - access-key: []
+  /user/update/password:
+    put:
+      operationId: UsersController_updatePassword
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePasswordDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_1
+      security:
+        - access-key: []
+  /quiz:
+    post:
+      operationId: QuizController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuizDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_2
+        - quiz
+      security:
+        - access-key: []
+    get:
+      operationId: QuizController_findAll
+      parameters:
+        - name: title
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+      security:
+        - access-key: []
+    delete:
+      operationId: QuizController_removes
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+      security:
+        - access-key: []
+  /quiz/by-user/{userId}:
+    get:
+      operationId: QuizController_findAllByUser
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: title
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+      security:
+        - access-key: []
+  /quiz/drafts:
+    get:
+      operationId: QuizController_findDrafts
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+      security:
+        - access-key: []
+  /quiz/{id}:
+    get:
+      operationId: QuizController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+      security:
+        - access-key: []
+    patch:
+      operationId: QuizController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateQuizDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+      security:
+        - access-key: []
+    delete:
+      operationId: QuizController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+      security:
+        - access-key: []
+  /categories:
+    post:
+      operationId: CategoriesController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_3
+        - categories
+      security:
+        - access-key: []
+    get:
+      operationId: CategoriesController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+      security:
+        - access-key: []
+  /categories/{id}:
+    get:
+      operationId: CategoriesController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+      security:
+        - access-key: []
+    patch:
+      operationId: CategoriesController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCategoryDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+      security:
+        - access-key: []
+    delete:
+      operationId: CategoriesController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+      security:
+        - access-key: []
+  /question:
+    post:
+      operationId: QuestionController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuestionDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_4
+        - question
+      security:
+        - access-key: []
+    get:
+      operationId: QuestionController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_4
+      security:
+        - access-key: []
+    delete:
+      operationId: QuestionController_removes
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_4
+      security:
+        - access-key: []
+  /question/{id}:
+    get:
+      operationId: QuestionController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_4
+      security:
+        - access-key: []
+    patch:
+      operationId: QuestionController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateQuestionDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_4
+      security:
+        - access-key: []
+    delete:
+      operationId: QuestionController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_4
+      security:
+        - access-key: []
+  /answer:
+    post:
+      operationId: AnswerController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAnswerDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_5
+        - answer
+      security:
+        - access-key: []
+    get:
+      operationId: AnswerController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+      security:
+        - access-key: []
+  /answer/{id}:
+    get:
+      operationId: AnswerController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+      security:
+        - access-key: []
+    patch:
+      operationId: AnswerController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAnswerDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+      security:
+        - access-key: []
+    delete:
+      operationId: AnswerController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+      security:
+        - access-key: []
+  /user-gamification:
+    post:
+      operationId: UserGamificationController_createUserGamification
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserGamificationDto'
+      responses:
+        '201':
+          description: ''
+      security:
+        - access-key: []
+  /user-gamification/{userId}:
+    patch:
+      operationId: UserGamificationController_updateUserGamification
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserGamificationDto'
+      responses:
+        '200':
+          description: ''
+      security:
+        - access-key: []
+    get:
+      operationId: UserGamificationController_getUserGamification
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      security:
+        - access-key: []
+  /quiz-response:
+    post:
+      operationId: QuizResponseController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuizResponseDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_6
+        - quiz-response
+      security:
+        - access-key: []
+    get:
+      operationId: QuizResponseController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+      security:
+        - access-key: []
+    delete:
+      operationId: QuizResponseController_removes
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+      security:
+        - access-key: []
+  /quiz-response/{id}:
+    get:
+      operationId: QuizResponseController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+      security:
+        - access-key: []
+    patch:
+      operationId: QuizResponseController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateQuizResponseDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+    delete:
+      operationId: QuizResponseController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /quiz-response/quiz/{id}:
+    get:
+      operationId: QuizResponseController_findQuizOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+      security:
+        - access-key: []
+  /quiz-response/user/{id}:
+    get:
+      operationId: QuizResponseController_findUserOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+      security:
+        - access-key: []
+  /question-response:
+    post:
+      operationId: QuestionResponseController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuestionResponseDto'
+      responses:
+        '201':
+          description: ''
+      tags: &ref_7
+        - question-response
+      security:
+        - access-key: []
+    get:
+      operationId: QuestionResponseController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_7
+      security:
+        - access-key: []
+  /question-response/{id}:
+    get:
+      operationId: QuestionResponseController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_7
+      security:
+        - access-key: []
+    patch:
+      operationId: QuestionResponseController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateQuestionResponseDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_7
+      security:
+        - access-key: []
+    delete:
+      operationId: QuestionResponseController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_7
+      security:
+        - access-key: []
+info:
+  title: API de Gestão de Questionários
+  description: >-
+    Esta API permite o cadastro e gerenciamento de questionários, autenticação e
+    registro de usuários, e coleta e armazenamento de respostas dos usuários.
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    CreateUserDto:
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        login:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+      required:
+        - name
+        - surname
+        - login
+        - password
+        - role
+    LoginUserDto:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+      required:
+        - login
+        - password
+    UpdatePasswordDto:
+      type: object
+      properties:
+        new_password:
+          type: string
+        old_password:
+          type: string
+      required:
+        - new_password
+        - old_password
+    CreateQuizDto:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        published:
+          type: boolean
+          default: false
+        categoryId:
+          type: string
+      required:
+        - title
+    UpdateQuizDto:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        published:
+          type: boolean
+          default: false
+        categoryId:
+          type: string
+    CreateCategoryDto:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    UpdateCategoryDto:
+      type: object
+      properties:
+        name:
+          type: string
+    CreateQuestionDto:
+      type: object
+      properties:
+        title:
+          type: string
+        type:
+          type: string
+        image:
+          type: string
+      required:
+        - title
+        - type
+        - image
+    UpdateQuestionDto:
+      type: object
+      properties:
+        title:
+          type: string
+        type:
+          type: string
+        image:
+          type: string
+    CreateAnswerDto:
+      type: object
+      properties:
+        text:
+          type: string
+        isCorrect:
+          type: boolean
+          default: false
+      required:
+        - text
+    UpdateAnswerDto:
+      type: object
+      properties:
+        text:
+          type: string
+        isCorrect:
+          type: boolean
+          default: false
+    CreateUserGamificationDto:
+      type: object
+      properties:
+        points:
+          type: number
+        level:
+          type: number
+        dailyChallengesCompleted:
+          type: number
+        currentStreak:
+          type: number
+        rewardPoints:
+          type: number
+        lastQuizTaken:
+          format: date-time
+          type: string
+        quizzesCompleted:
+          type: number
+        userId:
+          type: string
+      required:
+        - points
+        - level
+        - dailyChallengesCompleted
+        - currentStreak
+        - rewardPoints
+        - lastQuizTaken
+        - quizzesCompleted
+        - userId
+    CreateQuizResponseDto:
+      type: object
+      properties:
+        userId:
+          type: string
+        quizId:
+          type: string
+        questionsResponse:
+          type: array
+          items:
+            type: string
+      required:
+        - userId
+        - quizId
+        - questionsResponse
+    UpdateQuizResponseDto:
+      type: object
+      properties:
+        userId:
+          type: string
+        quizId:
+          type: string
+        questionsResponse:
+          type: array
+          items:
+            type: string
+    CreateQuestionResponseDto:
+      type: object
+      properties:
+        quizResponseId:
+          type: string
+        questionId:
+          type: string
+        selectedAnswerId:
+          type: string
+        discursiveAnswer:
+          type: string
+      required:
+        - quizResponseId
+        - questionId
+        - selectedAnswerId
+        - discursiveAnswer
+    UpdateQuestionResponseDto:
+      type: object
+      properties:
+        quizResponseId:
+          type: string
+        questionId:
+          type: string
+        selectedAnswerId:
+          type: string
+        discursiveAnswer:
+          type: string
