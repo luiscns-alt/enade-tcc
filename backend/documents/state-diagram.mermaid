@@ -46,17 +46,6 @@ stateDiagram-v2
             Selected --> Confirmed: Confirmar escolha
             Selected --> AwaitingChoice: Mudar escolha
         }
-        
-        state Discursive {
-            [*] --> Writing
-            state "Escrevendo" as Writing
-            state "Escrito" as Written
-            state "Enviado" as Submitted
-
-            Writing --> Written: Inserir resposta
-            Written --> Writing: Editar resposta
-            Written --> Submitted: Enviar resposta
-        }
     }
 
     QuizCreation --> QuizAttempt: Quiz publicado
